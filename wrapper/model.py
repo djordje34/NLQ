@@ -2,6 +2,8 @@ from langchain_community.llms import Replicate
 from utility.utils import get_key
 
 class Model:
+    """Wraps llama-2-13b-chat for convenience
+    """
     
     def __init__(self):
         REPLICATE_API_TOKEN = get_key()
