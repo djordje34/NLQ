@@ -1,2 +1,3 @@
-# PY-Str2SQL
-Open source Query/Question to SQL Prompt app
+# PY-NLQ
+
+Query databases using natural language!
