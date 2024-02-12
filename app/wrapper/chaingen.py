@@ -7,32 +7,33 @@ from langchain_core.output_parsers import StrOutputParser
 class ChainGen:
     
     @classmethod
-    def forward_chain(db:Database, prompt:ChatPromptTemplate, model:Model)->any:
+    def forward_chain(cls,db_wrapper:Database, sql_prompt:ChatPromptTemplate, model:Model)->any:
         """Generates a NL->SQL converter chain.
 
         Args:
             db (Database): Database object
-            prompt (ChatPromptTemplate): Prompt template object
+            sql_prompt (ChatPromptTemplate): Prompt template object
             model (Model): model wrapper object
 
         Returns:
             any: NL->SQL converter chain
         """
         return (
-        RunnablePassthrough.assign(schema = db.get_schema)
-        | prompt
+        RunnablePassthrough.assign(schema = db_wrapper.get_schema)
+        | sql_prompt
         | model.llm.bind(stop=["\nSQLResult:"])
         | StrOutputParser()
         )
         
     @classmethod
-    def full_chain(db:Database, prompt_response:ChatPromptTemplate, model:Model)->any:
+    def full_chain(cls,db_wrapper:Database, prompt:ChatPromptTemplate, sql_prompt:ChatPromptTemplate, model:Model)->any:
         """Generas a NL->SQL->NL converter chain. Converts a natural language prompt to\
             SQL prompt, executes the given prompt, and returns the result in NL.
 
         Args:
             db (Database): Database object
             prompt (ChatPromptTemplate): Prompt template object
+            sql_prompt (ChatPromptTemplate): NL->SQL prompt conversion
             model (Model): model wrapper object
 
         Returns:
@@ -40,12 +41,12 @@ class ChainGen:
         """
         
         return (
-        RunnablePassthrough.assign(query=ChainGen.forward_chain())
+        RunnablePassthrough.assign(query=ChainGen.forward_chain(db_wrapper, sql_prompt, model))
         | RunnablePassthrough.assign(
-            schema=db.get_schema,
-            response=lambda x: db.run(x["query"]),
+            schema=db_wrapper.get_schema,
+            response=lambda x: db_wrapper.run_query(x["query"]),
         )
-        | prompt_response
+        | prompt
         | model.llm
         )
         

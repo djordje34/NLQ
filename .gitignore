@@ -3,3 +3,4 @@ env
 .cpython
 test.py
 tempCodeRunnerFIle.py
+*.pyc
