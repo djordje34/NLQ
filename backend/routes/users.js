@@ -36,7 +36,7 @@ module.exports = (db) => {
     }
   });
 
-  router.post('/', async (req, res) => {
+    router.post('/', authenticateUser, async (req, res) => {
     try {
       const { username, password } = req.body;
 
@@ -45,24 +45,21 @@ module.exports = (db) => {
       }
 
       const existingUser = await db.collection('users').findOne({ username });
-
       if (existingUser) {
         return res.status(400).json({ error: 'Username already exists' });
       }
 
       const hashedPassword = hashPassword(password);
-
       const newUser = { username, password: hashedPassword };
       const result = await db.collection('users').insertOne(newUser);
-
-      res.status(201).json({ id: result.insertedId, username });
+      res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
       console.error('Error in user registration:', error);
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
 
-  router.get('/', async (req, res) => {
+  router.get('/', authenticateUser, async (req, res) => {
     try {
       const users = await db.collection('users').find().toArray();
       res.json(users);
@@ -72,7 +69,7 @@ module.exports = (db) => {
     }
   });
 
-  router.get('/:userId', async (req, res) => {
+  router.get('/:userId', authenticateUser, async (req, res) => {
     try {
       const { userId } = req.params;
 
@@ -89,7 +86,7 @@ module.exports = (db) => {
     }
   });
 
-  router.put('/:userId', async (req, res) => {
+  router.put('/:userId', authenticateUser, async (req, res) => {
     try {
       const { userId } = req.params;
       const { username, password } = req.body;
