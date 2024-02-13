@@ -8,7 +8,34 @@ const hashPassword = (password) => {
   return crypto.createHash('sha256').update(password).digest('hex');
 };
 
+// add auth to the methods!
+
 module.exports = (db) => {
+
+  router.post('/login', async (req, res) => {
+    try {
+      const { username, password } = req.body;
+
+      const existingUser = await db.collection('users').findOne({ username });
+
+      if (!existingUser) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+      const hashedPassword = hashPassword(password);
+
+      if (existingUser.password !== hashedPassword) {
+        return res.status(401).json({ error: 'Invalid password' });
+      }
+
+      const token = generateToken(existingUser._id);
+
+      res.json({ token });
+    } catch (error) {
+      console.error('Error during login:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+
   router.post('/', async (req, res) => {
     try {
       const { username, password } = req.body;
