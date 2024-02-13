@@ -18,7 +18,7 @@ app.use(express.json());
     app.use('/queries', queryRoutes(db));
 
     app.get('/', (req, res) => {
-      res.send('Hello World!');
+      res.send('Hello World from NLQ!');
     });
 
     app.listen(port, () => {
