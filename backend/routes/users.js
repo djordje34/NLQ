@@ -1,6 +1,7 @@
 const express = require('express');
 const { ObjectId } = require('mongodb');
 const crypto = require('crypto');
+const { authenticateUser } = require('./middleware/auth');
 
 const router = express.Router();
 
