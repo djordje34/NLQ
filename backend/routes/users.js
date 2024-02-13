@@ -1,15 +1,20 @@
 const express = require('express');
 const { ObjectId } = require('mongodb');
+const crypto = require('crypto');
 
 const router = express.Router();
+
+const hashPassword = (password) => {
+  return crypto.createHash('sha256').update(password).digest('hex');
+};
 
 module.exports = (db) => {
   router.post('/', async (req, res) => {
     try {
-      const { username } = req.body;
+      const { username, password } = req.body;
 
-      if (!username) {
-        return res.status(400).json({ error: 'Username is required' });
+      if (!username || !password) {
+        return res.status(400).json({ error: 'Username and password are required' });
       }
 
       const existingUser = await db.collection('users').findOne({ username });
@@ -18,7 +23,9 @@ module.exports = (db) => {
         return res.status(400).json({ error: 'Username already exists' });
       }
 
-      const newUser = { username };
+      const hashedPassword = hashPassword(password);
+
+      const newUser = { username, password: hashedPassword };
       const result = await db.collection('users').insertOne(newUser);
 
       res.status(201).json({ id: result.insertedId, username });
@@ -58,7 +65,7 @@ module.exports = (db) => {
   router.put('/:userId', async (req, res) => {
     try {
       const { userId } = req.params;
-      const { username } = req.body;
+      const { username, password } = req.body;
 
       if (!username) {
         return res.status(400).json({ error: 'Username is required' });
@@ -70,9 +77,11 @@ module.exports = (db) => {
         return res.status(400).json({ error: 'Username already exists' });
       }
 
+      const hashedPassword = hashPassword(password);
+
       const result = await db.collection('users').updateOne(
         { _id: new ObjectId(userId) },
-        { $set: { username } }
+        { $set: { username, password: hashedPassword } }
       );
 
       if (result.matchedCount === 0) {
