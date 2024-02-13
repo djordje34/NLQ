@@ -2,7 +2,7 @@ const express = require('express');
 const { ObjectId } = require('mongodb');
 const crypto = require('crypto');
 const { authenticateUser } = require('./middleware/auth');
-
+const {generateToken} = require('../utils/jwt');
 const router = express.Router();
 
 const hashPassword = (password) => {
@@ -37,7 +37,7 @@ module.exports = (db) => {
     }
   });
 
-    router.post('/', authenticateUser, async (req, res) => {
+    router.post('/', async (req, res) => {
     try {
       const { username, password } = req.body;
 
@@ -89,30 +89,35 @@ module.exports = (db) => {
 
   router.put('/:userId', authenticateUser, async (req, res) => {
     try {
-      const { userId } = req.params;
-      const { username, password } = req.body;
+      const { userId: requestUserId } = req.params;
+      const authenticatedUserId = req.userId;
+      const {username, password} = req.body;
 
+      if (authenticatedUserId !== requestUserId) {
+        return res.status(403).json({ error: 'You are not authorized to update this user' });
+      }
+  
       if (!username) {
         return res.status(400).json({ error: 'Username is required' });
       }
-
+  
       const existingUser = await db.collection('users').findOne({ username });
-
-      if (existingUser && existingUser._id.toString() !== userId) {
+  
+      if (existingUser && existingUser._id.toString() !== requestUserId) {
         return res.status(400).json({ error: 'Username already exists' });
       }
-
+  
       const hashedPassword = hashPassword(password);
-
+  
       const result = await db.collection('users').updateOne(
-        { _id: new ObjectId(userId) },
+        { _id: new ObjectId(requestUserId) },
         { $set: { username, password: hashedPassword } }
       );
-
+  
       if (result.matchedCount === 0) {
         return res.status(404).json({ error: 'User not found' });
       }
-
+  
       res.json({ message: 'User updated successfully' });
     } catch (error) {
       console.error('Error updating user:', error);

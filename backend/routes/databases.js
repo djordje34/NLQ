@@ -1,10 +1,11 @@
 const express = require('express');
 const { ObjectId } = require('mongodb');
+const { authenticateUser } = require('./middleware/auth');
 
 const router = express.Router();
 
 module.exports = (db) => {
-  router.post('/', async (req, res) => {
+  router.post('/', authenticateUser, async (req, res) => {
     try {
       const { userId, path, filename } = req.body;
 
@@ -28,7 +29,7 @@ module.exports = (db) => {
     }
   });
 
-  router.get('/:userId', async (req, res) => {
+  router.get('/:userId', authenticateUser, async (req, res) => {
     try {
       const { userId } = req.params;
 
