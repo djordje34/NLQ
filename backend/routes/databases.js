@@ -7,7 +7,8 @@ const router = express.Router();
 module.exports = (db) => {
   router.post('/', authenticateUser, async (req, res) => {
     try {
-      const { userId, path, filename } = req.body;
+      const { path, filename } = req.body;
+      const userId = req.userId;
 
       if (!userId || !path || !filename) {
         return res.status(400).json({ error: 'userId, path, and filename are required' });
@@ -19,7 +20,10 @@ module.exports = (db) => {
         return res.status(404).json({ error: 'User not found' });
       }
 
-      const newDatabase = { userId: user._id, path, filename };
+      const newDatabase = { userId: user._id, 
+        path, 
+        filename,
+        createdAt: new Date() };
       const result = await db.collection('databases').insertOne(newDatabase);
 
       res.status(201).json({ id: result.insertedId, userId: user._id, path, filename });
@@ -29,11 +33,11 @@ module.exports = (db) => {
     }
   });
 
-  router.get('/:userId', authenticateUser, async (req, res) => {
+  router.get('/', authenticateUser, async (req, res) => {
     try {
-      const { userId } = req.params;
+      const authenticatedUserId = req.userId;
 
-      const user = await db.collection('users').findOne({ _id: new ObjectId(userId) });
+      const user = await db.collection('users').findOne({ _id: new ObjectId(authenticatedUserId) });
 
       if (!user) {
         return res.status(404).json({ error: 'User not found' });

@@ -7,7 +7,8 @@ const router = express.Router();
 module.exports = (db) => {
   router.post('/', authenticateUser, async (req, res) => {
     try {
-      const { userId, databaseId, query, response } = req.body;
+      const { databaseId, query, response } = req.body;
+      const userId = req.userId;
 
       if (!userId || !databaseId || !query || !response) {
         return res.status(400).json({ error: 'userId, databaseId, query, and response are required' });
@@ -39,10 +40,10 @@ module.exports = (db) => {
     }
   });
 
-  router.get('/:userId', authenticateUser, async (req, res) => {
+  router.get('/', authenticateUser, async (req, res) => {
     try {
-      const { userId } = req.params;
-
+      //const { userId } = req.params;
+      const userId = req.userId;
       const user = await db.collection('users').findOne({ _id: new ObjectId(userId) });
 
       if (!user) {

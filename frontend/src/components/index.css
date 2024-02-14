@@ -1,0 +1,17 @@
+.navbar{
+    position:absolute;
+    top:0;
+    width: 100%;
+}
+.navbar-brand{
+    color: #0ac257;
+}
+.navbar-brand:hover{
+    color: hsl(145, 90%, 60%);
+}
+.navbar-brand:active{
+    color: hsl(145, 90%, 60%);
+}
+.navbar-brand:focus{
+    color: hsl(145, 90%, 60%);
+}
