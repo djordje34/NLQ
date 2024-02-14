@@ -4,10 +4,12 @@ const { connectToDatabase } = require('./db/mongo');
 const userRoutes = require('./routes/users');
 const databaseRoutes = require('./routes/databases');
 const queryRoutes = require('./routes/queries');
-
+var cors = require('cors')
 const port = process.env.PORT || 3000;
 
+app.use(cors())
 app.use(express.json());
+//app.use(cors())
 
 (async () => {
   try {

@@ -7,23 +7,40 @@ import './index.css'
 const CustomNavbar = () => {
   const isLoggedIn = !!localStorage.getItem('token');
 
- return (
+  return (
     <Navbar bg="dark" data-bs-theme="dark">
-      <Container style={{margin:'0px'}}>
-      <Navbar.Brand as={NavLink} to="/home">NLQ</Navbar.Brand>
-      <Nav className="me-auto">
-        <Nav.Link as={NavLink} to="/login" className="nav-link">
-          Login
-        </Nav.Link>
-        <Nav.Link as={NavLink} to="/register" className="nav-link">
-          Register
-        </Nav.Link>
-        {isLoggedIn && (
-          <Nav.Link as={NavLink} to="/home" className="nav-link">
-            Home
-          </Nav.Link>
-        )}
-      </Nav>
+      <Container style={{ margin: '0px' }}>
+        <Navbar.Brand as={NavLink} to="/home">
+          NLQ
+        </Navbar.Brand>
+        <Nav className="me-auto">
+          {!isLoggedIn && (
+            <>
+            <Nav.Link as={NavLink} to="/home" className="nav-link">
+                Home
+              </Nav.Link>
+              <Nav.Link as={NavLink} to="/login" className="nav-link">
+                Login
+              </Nav.Link>
+              <Nav.Link as={NavLink} to="/register" className="nav-link">
+                Register
+              </Nav.Link>
+            </>
+          )}
+          {isLoggedIn && (
+            <>
+              <Nav.Link as={NavLink} to="/home" className="nav-link">
+                Home
+              </Nav.Link>
+              <Nav.Link as={NavLink} to="/databases" className="nav-link">
+                Databases
+              </Nav.Link>
+              <Nav.Link as={NavLink} to="/settings" className="nav-link">
+                Settings
+              </Nav.Link>
+            </>
+          )}
+        </Nav>
       </Container>
     </Navbar>
   );

@@ -9,7 +9,7 @@ const Login = ({ onLogin }) => {
 
   const handleLogin = async () => {
     try {
-      const response = await api.post('/login', credentials);
+      const response = await api.post('/users/login', credentials);
       const { token } = response.data;
       localStorage.setItem('token', token);
       onLogin();
