@@ -27,7 +27,7 @@ class ChainGen:
         
     @classmethod
     def full_chain(cls,db_wrapper:Database, prompt:ChatPromptTemplate, sql_prompt:ChatPromptTemplate, model:Model)->any:
-        """Generas a NL->SQL->NL converter chain. Converts a natural language prompt to\
+        """Generates a NL->SQL->NL converter chain. Converts a natural language prompt to\
             SQL prompt, executes the given prompt, and returns the result in NL.
 
         Args:

@@ -18,6 +18,19 @@ model = Model()
 @app.route("/api/process", methods=["POST"])
 @cross_origin()
 def process() -> Response:
+    """Generates and returns a natural language interpreted SQL query result\
+    using natural language prompt provided by the request's body
+    
+    Example:
+        "How many employees are there?" will return something like "There are x employees."
+
+    Raises:
+        BadRequest: Client-side bad request
+
+    Returns:
+        Response: A natural language interpreted SQL query result
+    """
+    
     try:
         db_filename = str(request.json.get("filename", ""))
         question = str(request.json.get("question", ""))
