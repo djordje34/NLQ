@@ -17,7 +17,8 @@ class Database:
         """Get database schema from the wrapper object
 
         Args:
-            _ (any): Throwaway variable - used for conveniences in chain construction
+            _ (any): Throwaway variable - used for conveniences in chain construction -\
+                returns last value read by the python interpreter
 
         Returns:
             str: Database schema
