@@ -9,7 +9,7 @@ const Home = () => {
   return (
     <div className="container">
       <h1>Welcome to the Home Page bla bla</h1>
-      <button className="btn btn-primary" onClick={handleLogout}>
+      <button className="btn btn-dark" onClick={handleLogout}>
         Logout
       </button>
     </div>
