@@ -49,7 +49,6 @@ def process() -> Response:
         return jsonify({"error": str(e)}), 400
 
     except Exception as e:
-        # Log the error for investigation
         app.logger.error(f"An internal server error occurred: {str(e)}")
         return jsonify({"error": "Internal Server Error"}), 500
 
