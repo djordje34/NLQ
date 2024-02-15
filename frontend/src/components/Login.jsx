@@ -33,7 +33,7 @@ const Login = ({ onLogin }) => {
 
   return (
     <div className="container" data-bs-theme="light">
-      <h2>Hello again!</h2>
+      <h2>Glad to see you again!</h2>
       <Form>
         <Form.Group className="mb-3" controlId="formUsername">
           <Form.Label>Username</Form.Label>
