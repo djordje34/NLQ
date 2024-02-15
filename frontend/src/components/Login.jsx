@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
+import { toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 import api from '../api';
 
 const Login = ({ onLogin }) => {
@@ -16,6 +18,16 @@ const Login = ({ onLogin }) => {
       history.push('/home');
     } catch (error) {
       console.error('Login error:', error);
+      toast.error('Login failed 😔. Please check your credentials.', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark"
+        });
     }
   };
 
@@ -49,6 +61,18 @@ const Login = ({ onLogin }) => {
       <div className="mt-3 brm">
         Don't have an account? <Link className='link-dark' to="/register">Register here</Link>.
       </div>
+      <ToastContainer
+      position="top-right"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="dark"
+      />
     </div>
   );
 };
