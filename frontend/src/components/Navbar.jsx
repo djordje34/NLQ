@@ -4,30 +4,15 @@ import { Navbar, Nav, Container } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import './index.css'
 
-const CustomNavbar = () => {
-  const isLoggedIn = !!localStorage.getItem('token');
-
+const CustomNavbar = ({ isLoggedIn, onLogout }) => {
   return (
-    <Navbar bg="dark" data-bs-theme="dark">
-      <Container style={{ margin: '0px' }}>
+    <Navbar bg="dark" data-bs-theme="dark" className='sticky-top' style={{justifyContent:'space-between',zIndex:'999'}}>
+      <Container style={{ margin: '0px' }} className=''>
         <Navbar.Brand as={NavLink} to="/home">
           NLQ
         </Navbar.Brand>
         <Nav className="me-auto">
-          {!isLoggedIn && (
-            <>
-            <Nav.Link as={NavLink} to="/home" className="nav-link">
-                Home
-              </Nav.Link>
-              <Nav.Link as={NavLink} to="/login" className="nav-link">
-                Login
-              </Nav.Link>
-              <Nav.Link as={NavLink} to="/register" className="nav-link">
-                Register
-              </Nav.Link>
-            </>
-          )}
-          {isLoggedIn && (
+          {isLoggedIn ? (
             <>
               <Nav.Link as={NavLink} to="/home" className="nav-link">
                 Home
@@ -39,9 +24,28 @@ const CustomNavbar = () => {
                 Settings
               </Nav.Link>
             </>
+          ) : (
+            <>
+              <Nav.Link as={NavLink} to="/home" className="nav-link">
+                Home
+              </Nav.Link>
+              <Nav.Link as={NavLink} to="/login" className="nav-link">
+                Login
+              </Nav.Link>
+              <Nav.Link as={NavLink} to="/register" className="nav-link">
+                Register
+              </Nav.Link>
+            </>
           )}
-        </Nav>
+        </Nav> 
       </Container>
+      {isLoggedIn && (
+            <Nav style={{paddingRight:'10px'}}>
+              <Nav.Link onClick={onLogout} className="nav-link">
+                Logout
+              </Nav.Link>
+            </Nav>
+          )}
     </Navbar>
   );
 };

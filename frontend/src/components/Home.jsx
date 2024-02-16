@@ -168,12 +168,6 @@ const Home = () => {
           <hr />
         </div>
       </div>
-      
-      {isLoggedIn && (
-        <button className="btn btn-dark" onClick={handleLogout}>
-          Logout
-        </button>
-      )}
     </div>
   );
 };
