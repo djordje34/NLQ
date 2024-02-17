@@ -117,3 +117,8 @@
     background-color: #f2f2f2;
     border-color:#0ac257;
   }
+  .list-group-item:active{
+    color:#0ac257;
+    background-color: #d4d4d4;
+    border-color:#0ac257;
+  }
