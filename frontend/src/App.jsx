@@ -4,6 +4,7 @@ import CustomNavbar from './components/Navbar';
 import Login from './components/Login';
 import Register from './components/Register';
 import Home from './components/Home';
+import Databases from './components/Databases';
 import './App.css'
 
 const App = () => {
@@ -33,6 +34,10 @@ const App = () => {
           <Route
             path="/home"
             element={<Home />}
+          />
+          <Route
+            path="/databases"
+            element={isLoggedIn ? <Databases isLoggedIn={isLoggedIn} /> : <Navigate to="/login" />}
           />
         </Routes>
     </Router>
