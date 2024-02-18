@@ -32,7 +32,7 @@ NLQ simplifies the database interaction process, allowing users to effortlessly 
 
 ## Installation and Usage
 
-Refer to [Installation Documentation](INSTALLATION.md).
+For installation and usage guidance and information, refer to [Installation Documentation](INSTALLATION.md).
    
 ## REST API
 
