@@ -1,4 +1,4 @@
-# PY-NLQ
+# NLQ
 
 # Natural Language Querying (NLQ) 🚀
 
