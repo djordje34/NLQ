@@ -11,7 +11,6 @@ NLQ is an innovative web application that revolutionizes the way users interact 
 - [Installation and Usage](#installation-and-usage)
 - [REST API](#rest-api)
 - [Additional Functionalities](#additional-functionalities)
-- [Contributing](#contributing)
 - [License](#license)
 
 ## Introduction 🌐
@@ -35,10 +34,21 @@ NLQ simplifies the database interaction process, allowing users to effortlessly 
 
 ## Installation and Usage 🚦
 
-Refer to [Installation Documentation](INSTALLATION.md)
+Refer to [Installation Documentation](INSTALLATION.md).
    
 ## REST API 🌐
 
 NLQ employs a RESTful API for communication between the frontend and backend. The API includes endpoints for user authentication, database management, and querying.
 
 For detailed API documentation, refer to [API Documentation](API_DOCUMENTATION.md).
+
+## Additional Functionalities 🚀
+
+- **Database Import**: Easily import databases in various formats.
+- **User Authentication**: Secure user authentication for personalized experiences.
+- **Database Querying**: Perform complex queries using a natural language interface.
+- **Error Handling**: Robust error handling for a smooth user experience.
+
+## License 📝
+
+This project is licensed under the [Apache 2.0 License](LICENSE).
