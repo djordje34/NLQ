@@ -19,7 +19,7 @@ module.exports = (db) => {
         return res.status(400).json({ error: 'userId and originalname are required' });
       }
   
-      const userDatabaseDir = path.join(__dirname, '..', 'data', userId); //popravi za root data
+      const userDatabaseDir = path.join(__dirname, '..', 'data', userId); //popravi za root data path.join(__dirname, '..', '..', 'data', userId);
       const newPath = path.join(userDatabaseDir, originalname);
   
       try {
