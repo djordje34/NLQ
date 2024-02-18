@@ -14,7 +14,7 @@ This document provides details on the API endpoints, their usage, and expected r
 - **Method:** `POST`
 - **Description:** Process a Natural Language Query and return the corresponding SQL query.
 - **Request Body:**
-```json
+```js
     {
         "filename": "database.db", // Database file from the "data/" folder
         "question": "Query" // Query to run
@@ -33,7 +33,7 @@ This document provides details on the API endpoints, their usage, and expected r
 - **Response:**
   - Status: 201 Created
   - Body:
-    ```json
+    ```js
     {
       "id": "ObjectId",
       "userId": "ObjectId",
@@ -44,7 +44,7 @@ This document provides details on the API endpoints, their usage, and expected r
 - **Error Responses:**
   - Status: 400 Bad Request
   - Body:
-    ```json
+    ```js
     { "error": "userId and originalname are required" }
     ```
   - Status: 500 Internal Server Error
@@ -58,7 +58,7 @@ This document provides details on the API endpoints, their usage, and expected r
 - **Response:**
   - Status: 200 OK
   - Body:
-    ```json
+    ```js
     [
       {
         "id": "ObjectId",
@@ -80,7 +80,7 @@ This document provides details on the API endpoints, their usage, and expected r
   - Headers:
     - Authorization: YOUR_JWT_TOKEN
   - Body:
-    ```json
+    ```js
     {
       "databaseId": "ObjectId",
       "query": "SQL Query",
@@ -90,7 +90,7 @@ This document provides details on the API endpoints, their usage, and expected r
 - **Response:**
   - Status: 201 Created
   - Body:
-    ```json
+    ```js
     {
       "id": "ObjectId",
       "userId": "ObjectId",
@@ -103,7 +103,7 @@ This document provides details on the API endpoints, their usage, and expected r
 - **Error Responses:**
   - Status: 400 Bad Request
   - Body:
-    ```json
+    ```js
     { "error": "userId, databaseId, query, and response are required" }
     ```
   - Status: 500 Internal Server Error
@@ -117,7 +117,7 @@ This document provides details on the API endpoints, their usage, and expected r
 - **Response:**
   - Status: 200 OK
   - Body:
-    ```json
+    ```js
     [
       {
         "id": "ObjectId",
@@ -140,7 +140,7 @@ This document provides details on the API endpoints, their usage, and expected r
 - **Description:** Register a new user.
 - **Request:**
   - Body:
-    ```json
+    ```js
     {
       "username": "Username",
       "password": "Password"
@@ -149,13 +149,13 @@ This document provides details on the API endpoints, their usage, and expected r
 - **Response:**
   - Status: 201 Created
   - Body:
-    ```json
+    ```js
     { "message": "User registered successfully" }
     ```
 - **Error Responses:**
   - Status: 400 Bad Request
   - Body:
-    ```json
+    ```js
     { "error": "Username and password are required" }
     ```
   - Status: 500 Internal Server Error
@@ -165,7 +165,7 @@ This document provides details on the API endpoints, their usage, and expected r
 - **Description:** Log in a user.
 - **Request:**
   - Body:
-    ```json
+    ```js
     {
       "username": "Username",
       "password": "Password"
@@ -174,18 +174,18 @@ This document provides details on the API endpoints, their usage, and expected r
 - **Response:**
   - Status: 200 OK
   - Body:
-    ```json
+    ```js
     { "token": "JWT_TOKEN" }
     ```
 - **Error Responses:**
   - Status: 401 Unauthorized
   - Body:
-    ```json
+    ```js
     { "error": "Invalid password" }
     ```
   - Status: 404 Not Found
   - Body:
-    ```json
+    ```js
     { "error": "User not found" }
     ```
   - Status: 500 Internal Server Error
@@ -199,7 +199,7 @@ This document provides details on the API endpoints, their usage, and expected r
 - **Response:**
   - Status: 200 OK
   - Body:
-    ```json
+    ```js
     [
       {
         "_id": "ObjectId",
@@ -221,7 +221,7 @@ This document provides details on the API endpoints, their usage, and expected r
 - **Response:**
   - Status: 200 OK
   - Body:
-    ```json
+    ```js
     {
       "_id": "ObjectId",
       "username": "Username",
@@ -231,7 +231,7 @@ This document provides details on the API endpoints, their usage, and expected r
 - **Error Responses:**
   - Status: 404 Not Found
   - Body:
-    ```json
+    ```js
     { "error": "User not found" }
     ```
   - Status: 500 Internal Server Error
@@ -243,7 +243,7 @@ This document provides details on the API endpoints, their usage, and expected r
   - Headers:
     - Authorization: YOUR_JWT_TOKEN
   - Body:
-    ```json
+    ```js
     {
       "username": "NewUsername",
       "password": "NewPassword"
@@ -252,23 +252,23 @@ This document provides details on the API endpoints, their usage, and expected r
 - **Response:**
   - Status: 200 OK
   - Body:
-    ```json
+    ```js
     { "message": "User updated successfully" }
     ```
 - **Error Responses:**
   - Status: 400 Bad Request
   - Body:
-    ```json
+    ```js
     { "error": "Username is required" }
     ```
   - Status: 403 Forbidden
   - Body:
-    ```json
+    ```js
     { "error": "You are not authorized to update this user" }
     ```
   - Status: 404 Not Found
   - Body:
-    ```json
+    ```js
     { "error": "User not found" }
     ```
   - Status: 500 Internal Server Error
