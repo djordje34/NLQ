@@ -51,6 +51,28 @@
      }
    ```
 
-## Node Server
+## Node.js Server
+
+1. **Install dependencies:**
+  ```bash
+     cd backend
+     npm install
+  ```
+2. **Start Node.js Server:**
+  ```bash
+     node index.js
+  ```
+3. **Access the Node.js Server at [http://localhost:3000](http://localhost:3000)**
 
 ## React.js
+
+1. **Install dependencies:**
+  ```bash
+     cd frontend
+     npm install
+  ```
+2. **Start React.js Development Server:**
+  ```bash
+     npm run dev
+  ```
+3. **Access the Node.js Server at [http://localhost:5173](http://localhost:5173)**
