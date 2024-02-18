@@ -3,13 +3,13 @@
 NLQ is an innovative web application that revolutionizes the way users interact with databases by enabling natural language querying.
 
 ## Table of Contents
-- [Introduction](#introduction)
-- [Key Features](#key-features)
-- [Technologies Used](#technologies-used)
-- [Installation and Usage](#installation-and-usage)
-- [REST API](#rest-api)
-- [Additional Functionalities](#additional-functionalities)
-- [License](#license)
+- [Introduction 🌐](#introduction)
+- [Key Features 🎉](#key-features)
+- [Technologies Used 🛠️](#technologies-used)
+- [Installation and Usage 🚦](#installation-and-usage)
+- [REST API](#rest-api 🌐)
+- [Additional Functionalities 🚀](#additional-functionalities)
+- [License 📝](#license)
 
 ## Introduction 🌐
 
