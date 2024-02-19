@@ -19,7 +19,7 @@ module.exports = (db) => {
         return res.status(400).json({ error: 'userId and originalname are required' });
       }
   
-      const userDatabaseDir = path.join(__dirname, '..', 'data', userId); //popravi za root data path.join(__dirname, '..', '..', 'data', userId);
+      const userDatabaseDir = path.join(__dirname, '..', '..', 'data', userId); //popravi za root data path.join(__dirname, '..', '..', 'data', userId);
       const newPath = path.join(userDatabaseDir, originalname);
   
       try {
@@ -49,7 +49,6 @@ module.exports = (db) => {
   router.get('/', authenticateUser, async (req, res) => {
     try {
       const authenticatedUserId = req.userId;
-      console.log(authenticatedUserId);
       const user = await db.collection('users').findOne({ _id: new ObjectId(authenticatedUserId) });
 
       if (!user) {
@@ -57,6 +56,7 @@ module.exports = (db) => {
       }
 
       const databases = await db.collection('databases').find({ userId: user._id }).toArray();
+      console.log(databases)
       res.json(databases);
     } catch (error) {
       console.error('Error fetching databases:', error);
