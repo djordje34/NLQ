@@ -74,7 +74,7 @@
     border-left: 1px solid #585858;
     border-right: 1px solid #585858;
     padding: 0px;
-
+    height:100vh;
     h2{
       margin:auto;
       padding:auto;
@@ -99,14 +99,36 @@
   }
 
   .list-group{
-    min-width:320px;
-    width:30%;
     margin:auto;
+    display:flex;
+    flex-direction: column;
+    height:80vh;
+    flex-wrap: wrap;
+  }
+
+  .listgroup-holder{
+    display:flex;
+    flex-direction: row;
+    align-self:center;
+    justify-content: space-evenly;
+    width:100%;
+
+    p{
+      font-size: 15px;
+      margin-top:auto;
+      margin-bottom:auto;
+    }
   }
 
   .list-group-item{
     color:#0ac257;
+    min-width:320px;
+    width:30%;
+    border: 1px solid transparent;
+    border-radius: 8px !important;
   }
+
+
   .list-group-item:hover{
     color:#0ac257;
     background-color: #f2f2f2;
