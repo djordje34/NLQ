@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, ListGroup, Container } from 'react-bootstrap';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import api from '../api';
 
 const Databases = ({ isLoggedIn }) => {
@@ -8,28 +8,25 @@ const Databases = ({ isLoggedIn }) => {
   const [showModal, setShowModal] = useState(false);
   const [databaseFile, setDatabaseFile] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await api.get('/databases', {
-          headers: {
-            Authorization: `${localStorage.getItem('token')}`,
-          },
-        });
-        console.log(response.statusText);
-        if (response.statusText === "OK") {
-        console.log(response);
-          const data = await response.data;
-          console.log(data);
-          setDatabases(data);
-        } else {
-          console.error('Error fetching databases (Status Error):', response.statusText);
-        }
-      } catch (error) {
-        console.error('Error fetching databases:', error.message);
+  const fetchData = async () => {
+    try {
+      const response = await api.get('/databases', {
+        headers: {
+          Authorization: `${localStorage.getItem('token')}`,
+        },
+      });
+      if (response.statusText === "OK") {
+        const data = await response.data;
+        setDatabases(data);
+      } else {
+        console.error('Error fetching databases (Status Error):', response.statusText);
       }
-    };
+    } catch (error) {
+      console.error('Error fetching databases:', error.message);
+    }
+  };
 
+  useEffect(() => {
     if (isLoggedIn) {
       fetchData();
     }
@@ -46,9 +43,8 @@ const Databases = ({ isLoggedIn }) => {
             Authorization: `${localStorage.getItem('token')}`,
           },
         });
-
-        if (response.ok) {
-
+        console.log(response);
+        if (response.statusText="Created") {
           toast.success('Database imported successfully!', {
             position: 'top-right',
             autoClose: 5000,
@@ -59,13 +55,7 @@ const Databases = ({ isLoggedIn }) => {
             progress: undefined,
             theme: 'dark',
           });
-          const updatedDatabases = await api.get('/databases', {
-            headers: {
-              Authorization: `${localStorage.getItem('token')}`,
-            },
-          });
-          setDatabases(updatedDatabases);
-
+          await fetchData();
           setShowModal(false);
           setDatabaseFile(null);
         } else {
@@ -112,7 +102,26 @@ const Databases = ({ isLoggedIn }) => {
       {databases.length > 0 ? (
         <ListGroup>
         {databases.map((database) => (
+          <>
+          <div key={database._id} className='listgroup-holder'>
           <ListGroup.Item key={database._id} action onClick={{}}>{database.filename}</ListGroup.Item>
+          <p>
+          ({new Date(database.createdAt).toLocaleString('en-GB',{
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            timeZoneName: 'short',
+          })})
+          </p>
+          <Button variant="danger" onClick={() => handleRemoveDatabase(database)}>
+            Remove
+          </Button>
+          </div>
+          <hr/>
+          </>
         ))}
       </ListGroup>
       ) : (
@@ -140,6 +149,18 @@ const Databases = ({ isLoggedIn }) => {
         </Modal.Footer>
       </Modal>
     </Container>
+    <ToastContainer
+      position="top-right"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="dark"
+      />
     </div>
   );
 };
