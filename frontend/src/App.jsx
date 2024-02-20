@@ -5,6 +5,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Home from './components/Home';
 import Databases from './components/Databases';
+import Queries from './components/Queries'
 import './App.css'
 
 const App = () => {
@@ -38,6 +39,10 @@ const App = () => {
           <Route
             path="/databases"
             element={isLoggedIn ? <Databases isLoggedIn={isLoggedIn} /> : <Navigate to="/login" />}
+          />
+          <Route 
+          path="/queries/:id" 
+          element={<Queries/>}
           />
         </Routes>
     </Router>
