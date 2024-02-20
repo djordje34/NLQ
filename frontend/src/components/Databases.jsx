@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, ListGroup, Container } from 'react-bootstrap';
 import { toast, ToastContainer } from 'react-toastify';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import Queries from './Queries'
 import api from '../api';
 
 const Databases = ({ isLoggedIn }) => {
@@ -43,7 +45,6 @@ const Databases = ({ isLoggedIn }) => {
             Authorization: `${localStorage.getItem('token')}`,
           },
         });
-        console.log(response);
         if (response.statusText="Created") {
           toast.success('Database imported successfully!', {
             position: 'top-right',
@@ -87,6 +88,56 @@ const Databases = ({ isLoggedIn }) => {
     }
   };
 
+  const handleRemoveDatabase = async (database) =>{
+    try {
+      const response = await api.delete(`/databases/${database._id}`, {
+        headers: {
+          Authorization: `${localStorage.getItem('token')}`,
+        },
+      });
+      console.log("!!!!")
+      console.log(response);
+
+      if (response.statusText="Created") {
+        toast.success('Database removed successfully!', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'dark',
+        });
+        await fetchData();
+      } else {
+        console.error('Error removing database:', response.statusText);
+        toast.error('Database import failed. Please try again.', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'dark',
+        });
+      }
+    } catch (error) {
+      console.error('Error removing database:', error.message);
+      toast.error('Database removal failed. Please try again.', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'dark',
+      });
+    }
+  };
+
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -104,7 +155,9 @@ const Databases = ({ isLoggedIn }) => {
         {databases.map((database) => (
           <>
           <div key={database._id} className='listgroup-holder'>
-          <ListGroup.Item key={database._id} action onClick={{}}>{database.filename}</ListGroup.Item>
+          <Link to={`/queries/${database._id}`}>
+            <ListGroup.Item action>{database.filename}</ListGroup.Item>
+          </Link>
           <p>
           ({new Date(database.createdAt).toLocaleString('en-GB',{
             day: '2-digit',
