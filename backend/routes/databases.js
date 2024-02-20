@@ -14,7 +14,6 @@ module.exports = (db) => {
     try {
       const { originalname, buffer } = req.file;
       const userId = req.userId;
-      console.log(userId, originalname);
       if (!userId || !originalname) {
         return res.status(400).json({ error: 'userId and originalname are required' });
       }
@@ -56,10 +55,34 @@ module.exports = (db) => {
       }
 
       const databases = await db.collection('databases').find({ userId: user._id }).toArray();
-      console.log(databases)
       res.json(databases);
     } catch (error) {
       console.error('Error fetching databases:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+
+  router.delete('/:databaseId', authenticateUser, async (req, res) => {
+    try {
+      const { databaseId: requestDBId } = req.params;
+      const authenticatedUserId = req.userId;
+      
+      const user = await db.collection('users').findOne({ _id: new ObjectId(authenticatedUserId) });
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+  
+      const database = await db.collection('databases').findOne({ _id: new ObjectId(requestDBId), userId: user._id });
+  
+      if (!database) {
+        return res.status(404).json({ error: 'Database not found' });
+      }
+  
+      await db.collection('databases').deleteOne({ _id: new ObjectId(requestDBId) });
+  
+      res.json({ message: 'Database deleted successfully' });
+    } catch (error) {
+      console.error('Error deleting database:', error);
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
