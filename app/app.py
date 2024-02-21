@@ -17,7 +17,7 @@ model = Model()
 
 @app.route("/api/process", methods=["POST"])
 @cross_origin()
-def process() -> Response:
+def process() -> Response: #proveri
     """Generates and returns a natural language interpreted SQL query result\
     using natural language prompt provided by the request's body
     
@@ -33,12 +33,14 @@ def process() -> Response:
     
     try:
         db_filename = str(request.json.get("filename", ""))
+        user_id = str(request.json.get("userId", ""))
         question = str(request.json.get("question", ""))
         
-        if not db_filename or not question:
+        if not db_filename or not question or not user_id:
             raise BadRequest("Both 'filename' and 'question' must be provided in the request.")
 
-        db_wrapper = Database(db_filename)
+        db_wrapper = Database(user_id,db_filename)
+        print(db_wrapper._path)
         full_chain = ChainGen.full_chain(db_wrapper, Prompt.SQL_TO_NL_PROMPT.value, Prompt.NL_TO_SQL_PROMPT.value, model)
         
         result = full_chain.invoke({"question": f"{question}"})
