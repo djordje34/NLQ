@@ -3,14 +3,16 @@ from langchain_community.utilities import SQLDatabase
 
 class Database:
 
-    def __init__(self, filename:str):
+    def __init__(self, user_id:str,filename:str):
         """Initialize a Database wrapper object using database filename
 
         Args:
+            userId (str): name of the database folder (db's user's ID)
             filename (str): name of the database file (with extension)
         """
-        
-        self._path = adopt_childfile("data",filename)
+        filepath = adopt_childfile(user_id, filename)
+        self._path = adopt_childfile("..\data",filepath)
+        print(self._path)
         self._db = SQLDatabase.from_uri(f"sqlite:///{self._path}")
         
     def get_schema(self,_:any):
