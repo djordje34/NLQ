@@ -41,6 +41,7 @@
    ```js
      {
         "filename": "database.db", //database file from the "data/" folder
+        "userId": "the id of db's user", //name of the database folder (db's user's ID) 
         "question": "Query" //Query to run
      }
    ```
