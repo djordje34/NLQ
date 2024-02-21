@@ -146,20 +146,23 @@
     border-color:#0ac257;
   }
 
-
-  .query-section{
-    width:100%;
-    display:flex;
-    flex-direction: column;
-    align-items:center;
-
-    form{
-      width:40%;
-    }
+  .sendBtn{
+    min-width: fit-content;
+    background-color:transparent;
+    color:#0ac257;
   }
-  .response-section{
-    width:100%;
-    display:flex;
-    flex-direction: column;
-    align-items:center;
+  .sendBtn:hover{
+    color:#f2f2f2;
   }
+  .sendBtn:focus{
+    color:#f2f2f2;
+  }
+  .sendBtn:active{
+    color:#f2f2f2;
+  }  
+
+  textarea:focus{
+    border:none;
+    box-shadow: 0 0 0 0.2rem #2f2f2f;
+  }
+

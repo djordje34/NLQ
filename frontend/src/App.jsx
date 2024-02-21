@@ -41,7 +41,7 @@ const App = () => {
             element={isLoggedIn ? <Databases isLoggedIn={isLoggedIn} /> : <Navigate to="/login" />}
           />
           <Route 
-          path="/queries/:id" 
+          path="/queries/:databaseId" 
           element={<Queries/>}
           />
         </Routes>
