@@ -26,14 +26,14 @@ const App = () => {
         <Routes>
           <Route
             path="/login"
-            element={isLoggedIn ? <Navigate to="/home" /> : <><div id="auth-container" className=''><Login onLogin={handleLogin} /></div><div></div></>}
+            element={isLoggedIn ? <Navigate to="/" /> : <><div id="auth-container" className=''><Login onLogin={handleLogin} /></div><div></div></>}
           />
           <Route
             path="/register"
-            element={isLoggedIn ? <Navigate to="/home" /> : <><div id="auth-container"><Register /></div><div></div></>}
+            element={isLoggedIn ? <Navigate to="/" /> : <><div id="auth-container"><Register /></div><div></div></>}
           />
           <Route
-            path="/home"
+            path="/"
             element={<Home />}
           />
           <Route
