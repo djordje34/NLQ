@@ -17,6 +17,7 @@ This document provides details on the API endpoints, their usage, and expected r
 ```js
     {
         "filename": "database.db", // Database file from the "data/" folder
+        "userId": "the id of db's user", //name of the database folder (db's user's ID) 
         "question": "Query" // Query to run
     }
 ```
