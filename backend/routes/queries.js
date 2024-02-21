@@ -52,7 +52,7 @@ module.exports = (db) => {
         return res.status(404).json({ error: 'User not found' });
       }
 
-      const database = await db.collection('databases').findOne({ _id: new ObjectId(requestDBId), userId: user._id });
+      const database = await db.collection('databases').findOne({ _id: new ObjectId(databaseId), userId: user._id });
   
       if (!database) {
         return res.status(404).json({ error: 'Database not found' });
