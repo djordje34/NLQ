@@ -8,13 +8,13 @@ const CustomNavbar = ({ isLoggedIn, onLogout }) => {
   return (
     <Navbar bg="dark" data-bs-theme="dark" className='sticky-top' style={{justifyContent:'space-between',zIndex:'999'}}>
       <Container style={{ margin: '0px' }} className=''>
-        <Navbar.Brand as={NavLink} to="/home">
+        <Navbar.Brand as={NavLink} to="/">
           NLQ
         </Navbar.Brand>
         <Nav className="me-auto">
           {isLoggedIn ? (
             <>
-              <Nav.Link as={NavLink} to="/home" className="nav-link">
+              <Nav.Link as={NavLink} to="/" className="nav-link">
                 Home
               </Nav.Link>
               <Nav.Link as={NavLink} to="/databases" className="nav-link">
@@ -26,7 +26,7 @@ const CustomNavbar = ({ isLoggedIn, onLogout }) => {
             </>
           ) : (
             <>
-              <Nav.Link as={NavLink} to="/home" className="nav-link">
+              <Nav.Link as={NavLink} to="/" className="nav-link">
                 Home
               </Nav.Link>
               <Nav.Link as={NavLink} to="/login" className="nav-link">
