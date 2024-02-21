@@ -145,3 +145,21 @@
     background-color: #d4d4d4;
     border-color:#0ac257;
   }
+
+
+  .query-section{
+    width:100%;
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+
+    form{
+      width:40%;
+    }
+  }
+  .response-section{
+    width:100%;
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+  }
