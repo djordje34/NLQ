@@ -20,11 +20,24 @@ model = Model()
 @app.route("/api/diagrams", methods=["POST"]) #endpoint da pretvori u db `ERD` grafik
 @cross_origin()
 def graphify() -> Response:
-    db_filename = str(request.json.get("filename", ""))
-    user_id = str(request.json.get("userId", ""))
-    db_wrapper = Database(user_id,db_filename)
+    """Generates ERD diagram for db provided by filename, of user provided by userId.
+
+    Returns:
+        Response: Path to ERD .png
+    """
+    try:
+        db_filename = str(request.json.get("filename", ""))
+        user_id = str(request.json.get("userId", ""))
+        db_wrapper = Database(user_id,db_filename)
+        
+        return jsonify({"path": f"{db_wrapper.get_erdpath()}"})
     
-    return jsonify({"path": f"{db_wrapper.get_erdpath()}"})
+    except BadRequest as e:
+        return jsonify({"error": str(e)}), 400
+
+    except Exception as e:
+        app.logger.error(f"An internal server error occurred: {str(e)}")
+        return jsonify({"error": "Internal Server Error"}), 500
     
 
 @app.route("/api/process", methods=["POST"])
