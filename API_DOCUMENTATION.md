@@ -70,8 +70,54 @@ This document provides details on the API endpoints, their usage, and expected r
       // Additional databases...
     ]
     ```
+##### 3. Delete Selected Database
+- **Endpoint:** `http://localhost:3000/databases/:databaseId`
+- **Method:** `DELETE`
+- **Description:** Deletion of the selected database by the authenticated user.
+- **Request:**
+  - Headers:
+    - Authorization: YOUR_JWT_TOKEN
+- **Response:**
+  - Status: 200 OK
+  - Body:
+    ```js
+    [
+      {
+        "message": "Status of the process"
+      },
+    ]
+    ```
 - **Error Responses:**
   - Status: 500 Internal Server Error
+##### 3. Get ERD Of The Selected Database
+- **Endpoint:** `http://localhost:3000/databases/diagrams`
+- **Method:** `GET`
+- **Description:** Produce ER diagrams of the provided database.
+- **Request:**
+  - Headers:
+    - Authorization: YOUR_JWT_TOKEN
+  - Body:
+    ```js
+    [
+      {
+        "databaseId": "ID of the database for which ERD is produced"
+      },
+    ]
+    ```
+- **Response:**
+  - Status: 200 OK
+  - Body:
+    ```js
+    [
+      {
+        "path": "Path to .png ERD"
+      },
+    ]
+    ```
+- **Error Responses:**
+  - Status: 500 Internal Server Error
+
+
 ### 3. Queries Endpoints
 ##### 1. Create Query
 - **Endpoint:** `http://localhost:3000/queries`
