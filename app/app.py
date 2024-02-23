@@ -15,6 +15,18 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 model = Model()
 
+#this needs to be fixed ASAP
+#add to the docs!
+@app.route("/api/diagrams", methods=["POST"]) #endpoint da pretvori u db `ERD` grafik
+@cross_origin()
+def graphify() -> Response:
+    db_filename = str(request.json.get("filename", ""))
+    user_id = str(request.json.get("userId", ""))
+    db_wrapper = Database(user_id,db_filename)
+    
+    return jsonify({"path": f"{db_wrapper.get_erdpath()}"})
+    
+
 @app.route("/api/process", methods=["POST"])
 @cross_origin()
 def process() -> Response: #proveri
@@ -40,7 +52,6 @@ def process() -> Response: #proveri
             raise BadRequest("Both 'filename' and 'question' must be provided in the request.")
 
         db_wrapper = Database(user_id,db_filename)
-        print(db_wrapper._path)
         full_chain = ChainGen.full_chain(db_wrapper, Prompt.SQL_TO_NL_PROMPT.value, Prompt.NL_TO_SQL_PROMPT.value, model)
         
         result = full_chain.invoke({"question": f"{question}"})
