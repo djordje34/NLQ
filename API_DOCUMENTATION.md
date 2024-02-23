@@ -7,8 +7,8 @@ This document provides details on the API endpoints, their usage, and expected r
 - For authentication, all Node.js API's require a valid JSON Web Token (JWT) to be included in the `Authorization` header.
 
 ## Endpoints
-
-### 1. Process NL Query
+### 1. Flask Endpoints
+##### 1. Process NL Query
 
 - **Endpoint:** `http://127.0.0.1:5000/api/process`
 - **Method:** `POST`
@@ -21,6 +21,36 @@ This document provides details on the API endpoints, their usage, and expected r
         "question": "Query" // Query to run
     }
 ```
+- **Response:**
+```js
+    {
+        "response": "NL response the the given query"
+    }
+```
+- **Error Responses:**
+  - Status: 500 Internal Server Error
+  - Status: 400 Bad Request
+##### 2. Generate ERD
+
+- **Endpoint:** `http://127.0.0.1:5000/api/diagrams`
+- **Method:** `POST`
+- **Description:** Generates ER diagram for a given database.
+- **Request Body:**
+```js
+    {
+        "filename": "database.db", // Database file from the "data/" folder
+        "userId": "the id of db's user" //name of the database folder (db's user's ID) 
+    }
+```
+- **Response:**
+```js
+    {
+        "path": "path\\to\\diagram.png" // Path to the generated ERD
+    }
+```
+- **Error Responses:**
+  - Status: 500 Internal Server Error
+  - Status: 400 Bad Request
 ### 2. Databases Endpoints
 ##### 1. Upload Database
 - **Endpoint:** `http://localhost:3000/databases`
