@@ -50,17 +50,18 @@ const Queries = () => {
   };
 
   return (
-    <div className='dashboard' style={{ color: '#f2f2f2', display: 'flex', flexDirection: 'column', height: '100%' }}>
-      <div className='chat-section' style={{ flex: '1', overflowY: 'auto', width:'80%' }}>
+    <div className='dashboard' style={{ color: '#f2f2f2', display: 'flex', flexDirection: 'column'}}>
+      <div className='chat-section' style={{ flex: '1', overflowY: 'auto', margin:'20px', width:'80%'}}>
         {queries.map((query) => (
           <div key={query._id} className='message'>
             <div className='user-message'>
-              <p>Query: {query.query}</p>
-              <p>Created At: {new Date(query.createdAt).toLocaleString()}</p>
+              <p className='userText'>You</p>
+              <p>{query.query}</p>
             </div>
             <div className='response-message'>
-              <p>Response: {query.response}</p>
-              <p>Created At: {new Date(query.createdAt).toLocaleString()}</p>
+              <p className='modelText'>NLQ</p>
+              <p>{query.response}</p>
+              <br/>
             </div>
           </div>
         ))}
