@@ -166,3 +166,18 @@
     box-shadow: 0 0 0 0.2rem #2f2f2f;
   }
 
+
+  .userText{
+    color:#199c50;
+    font-weight: 600;
+    margin-bottom:auto;
+  }
+
+  .modelText{
+    color:#199c50;
+    font-weight: 600;
+    margin-bottom:auto;
+  }
+  p{
+    white-space: pre-wrap;
+  }
