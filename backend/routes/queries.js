@@ -10,7 +10,6 @@ module.exports = (db) => {
     try {
       const { databaseId, query } = req.body;
       const userId = req.userId;
-      console.log(databaseId, query, userId);
       if (!userId || !databaseId || !query) {
         return res.status(400).json({ error: 'userId, databaseId and query are required' });
       }
@@ -79,8 +78,6 @@ module.exports = (db) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
-
-  //endpoint za samo 1 query delete!
 
   return router;
 };
