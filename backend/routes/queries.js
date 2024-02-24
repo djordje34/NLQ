@@ -1,5 +1,6 @@
 const express = require('express');
 const { ObjectId } = require('mongodb');
+const axios = require('axios');
 const { authenticateUser } = require('./middleware/auth');
 
 const router = express.Router();
@@ -9,7 +10,7 @@ module.exports = (db) => {
     try {
       const { databaseId, query } = req.body;
       const userId = req.userId;
-
+      console.log(databaseId, query, userId);
       if (!userId || !databaseId || !query) {
         return res.status(400).json({ error: 'userId, databaseId and query are required' });
       }
@@ -25,6 +26,15 @@ module.exports = (db) => {
       if (!database) {
         return res.status(404).json({ error: 'Database not found' });
       }
+      const flaskEndpoint = 'http://127.0.0.1:5000/api/process';
+      const requestData = {
+        filename: database.filename,
+        userId: userId,
+        question: query
+      };
+
+      const flaskResponse = await axios.post(flaskEndpoint, requestData);
+      response = flaskResponse.data.response;
 
       const newQuery = { 
         userId: user._id, 
@@ -34,7 +44,11 @@ module.exports = (db) => {
         createdAt: new Date() };
       const result = await db.collection('queries').insertOne(newQuery);
 
-      res.status(201).json({ id: result.insertedId, userId: user._id, databaseId: database._id, query, response });
+      res.status(201).json({ id: result.insertedId, 
+        userId: user._id, 
+        databaseId: database._id, 
+        query, 
+        response });
     } catch (error) {
       console.error('Error in query creation:', error);
       res.status(500).json({ error: 'Internal Server Error' });
@@ -57,7 +71,7 @@ module.exports = (db) => {
       if (!database) {
         return res.status(404).json({ error: 'Database not found' });
       }
-
+      
       const queries = await db.collection('queries').find({ userId: user._id, databaseId:database._id }).toArray();
       res.json(queries);
     } catch (error) {
