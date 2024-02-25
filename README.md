@@ -1,7 +1,5 @@
 # Natural Language Querying (NLQ) 🚀
-
 NLQ is an innovative web application that revolutionizes the way users interact with databases by enabling natural language querying.
-
 ## Table of Contents
 - [Introduction](#introduction)
 - [Key Features](#key-features)
@@ -48,5 +46,6 @@ For detailed API documentation, refer to [API Documentation](API_DOCUMENTATION.m
 - **Error Handling**: Robust error handling for a smooth user experience.
 
 ## License
-
 This project is licensed under the [Apache 2.0 License](LICENSE).
+
+![image](frontend/src/imgs/banner.png) 
