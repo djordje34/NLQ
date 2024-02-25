@@ -14,10 +14,6 @@ class Prompt(Enum):
         {schema}
 
         Question: {question}\n
-        Pay attention to use only the column names you can see in the tables below. 
-        Always scope field names with the table name.
-        It is very important that you reply using only SQL code, there is no need for explanations. 
-        
         SQL Query:""")
     
     
