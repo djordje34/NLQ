@@ -34,7 +34,7 @@ This document provides details on the API endpoints, their usage, and expected r
 
 - **Endpoint:** `http://127.0.0.1:5000/api/diagrams`
 - **Method:** `POST`
-- **Description:** Generates ER diagram for a given database.
+- **Description:** Generates ER diagram for a given database and returns path to it.
 - **Request Body:**
 ```js
     {
@@ -119,28 +119,24 @@ This document provides details on the API endpoints, their usage, and expected r
     ```
 - **Error Responses:**
   - Status: 500 Internal Server Error
-##### 3. Get ERD Of The Selected Database
-- **Endpoint:** `http://localhost:3000/databases/diagrams`
+##### 4. Get ERD Of The Selected Database
+- **Endpoint:** `http://localhost:3000/databases/diagrams/:databaseId`
 - **Method:** `GET`
-- **Description:** Produce ER diagrams of the provided database.
+- **Description:** Produces ER diagram of the provided database and returns it.
 - **Request:**
   - Headers:
     - Authorization: YOUR_JWT_TOKEN
-  - Body:
-    ```js
-    [
-      {
-        "databaseId": "ID of the database for which ERD is produced"
-      },
-    ]
-    ```
 - **Response:**
   - Status: 200 OK
   - Body:
     ```js
     [
       {
-        "path": "Path to .png ERD"
+        "data": Blob {
+          "size": "img_size",
+          "type": "image/png"
+        }
+        //png diagram image
       },
     ]
     ```
