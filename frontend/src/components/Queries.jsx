@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, Spinner } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 
@@ -10,34 +10,41 @@ const Queries = () => {
   const { databaseId } = useParams();
   const [queries, setQueries] = useState([]);
   const [newQuery, setNewQuery] = useState('');
-  const [response, setResponse] = useState('');
-  
-  useEffect(() => {
-    const fetchQueries = async () => {
-      try {
-        const response = await api.get(`/queries/${databaseId}`, {
-          headers: {
-            Authorization: `${localStorage.getItem('token')}`,
-          },
-        });
-        console.log(response)
-        if (response.statusText === 'OK') {
-          const data = await response.data;
-          setQueries(data);
-        } else {
-          console.error('Error fetching queries (Status Error):', response.statusText);
-        }
-      } catch (error) {
-        console.error('Error fetching queries:', error.message);
-      }
-    };
+  const [loading, setLoading] = useState(false);
 
+  const fetchQueries = async () => {
+    try {
+      const response = await api.get(`/queries/${databaseId}`, {
+        headers: {
+          Authorization: `${localStorage.getItem('token')}`,
+        },
+      });
+      console.log(response)
+      if (response.statusText === 'OK') {
+        const data = await response.data;
+        setQueries(data);
+      } else {
+        console.error('Error fetching queries (Status Error):', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error fetching queries:', error.message);
+    }
+  };
+
+  useEffect(() => {
     fetchQueries();
   }, [databaseId]);
 
-  const handleAddQuery = async () => { //u okviru nodejs srv treba da se pozove flask!
+  const handleAddQuery = async () => {
     try {
-      const response = await api.post('/queries', { databaseId: databaseId, query: newQuery });
+      setLoading(true);
+      const response = await api.post('/queries',
+       { databaseId: databaseId,
+         query: newQuery},{
+        headers: {
+        Authorization: `${localStorage.getItem('token')}`,
+      }});
+
       if (response.statusText === 'Created') {
         await fetchQueries();
         setNewQuery('');
@@ -47,10 +54,13 @@ const Queries = () => {
     } catch (error) {
       console.error('Error adding query:', error.message);
     }
+    finally{
+      setLoading(false);
+    }
   };
 
   return (
-    <div className='dashboard' style={{ color: '#f2f2f2', display: 'flex', flexDirection: 'column'}}>
+    <div className='dashboard' style={{ color: '#f2f2f2', minHeight:'94.4vh'}}>
       <div className='chat-section' style={{ flex: '1', overflowY: 'auto', margin:'20px', width:'80%'}}>
         {queries.map((query) => (
           <div key={query._id} className='message'>
@@ -88,12 +98,13 @@ const Queries = () => {
           border:'none'}}
       />
       <Button
-        variant='dark'
-        className='importBtn sendBtn'
-        onClick={handleAddQuery}
-        style={{}}>
-        <FontAwesomeIcon icon={faPaperPlane} />
-      </Button>
+          variant='dark'
+          className='importBtn sendBtn'
+          onClick={handleAddQuery}
+          disabled={loading}
+        >
+          {loading ? <Spinner animation="border" size="sm" /> : <FontAwesomeIcon icon={faPaperPlane} />}
+        </Button>
     </Form>
     </div>
     <hr/>
