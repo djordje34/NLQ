@@ -12,7 +12,7 @@ class Model:
         """
         
         REPLICATE_API_TOKEN = get_key()
-        self.replicate_id = "meta/llama-2-13b-chat:f4e2de70d66816a838a89eeeb621910adffb0dd0baba3976c96980970978018d"
+        self.replicate_id = "meta/llama-2-70b-chat:58d078176e02c219e11eb4da5a02a7830a283b14cf8f94537af893ccff5ee781"
         self.llm = Replicate(model=self.replicate_id,
                               model_kwargs={"temperature": 0.01,
                                             "max_length": 1000,
