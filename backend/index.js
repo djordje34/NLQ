@@ -1,5 +1,4 @@
 const express = require('express');
-const app = express();
 const { connectToDatabase } = require('./db/mongo');
 const userRoutes = require('./routes/users');
 const databaseRoutes = require('./routes/databases');
@@ -7,7 +6,13 @@ const queryRoutes = require('./routes/queries');
 var cors = require('cors')
 const port = process.env.PORT || 3000;
 
+const app = express();
 app.use(cors())
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true,
+  exposedHeaders: ['Content-Disposition']
+}))
 app.use(express.json());
 //app.use(cors())
 
