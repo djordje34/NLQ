@@ -17,7 +17,7 @@ model = Model()
 
 #this needs to be fixed ASAP
 #add to the docs!
-@app.route("/api/diagrams", methods=["POST"]) #endpoint da pretvori u db `ERD` grafik
+@app.route("/api/diagrams", methods=["GET"])
 @cross_origin()
 def graphify() -> Response:
     """Generates ERD diagram for db provided by filename, of user provided by userId.
@@ -26,8 +26,8 @@ def graphify() -> Response:
         Response: Path to ERD .png
     """
     try:
-        db_filename = str(request.json.get("filename", ""))
-        user_id = str(request.json.get("userId", ""))
+        db_filename = str(request.args.get("filename", ""))
+        user_id = str(request.args.get("userId", ""))
         db_wrapper = Database(user_id,db_filename)
         
         return jsonify({"path": f"{db_wrapper.get_erdpath()}"})
