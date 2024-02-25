@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Button, Form, Spinner } from 'react-bootstrap';
+import { Button, Form, Spinner, Toast } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
+import { faPaperPlane, faCopy } from '@fortawesome/free-solid-svg-icons'
+import { toast, ToastContainer } from 'react-toastify';
 
 import api from '../api';
 
@@ -59,11 +60,25 @@ const Queries = () => {
     }
   };
 
+
   return (
     <div className='dashboard' style={{ color: '#f2f2f2', minHeight:'94.4vh'}}>
       <div className='chat-section' style={{ flex: '1', overflowY: 'auto', margin:'20px', width:'80%'}}>
         {queries.map((query) => (
-          <div key={query._id} className='message'>
+          <div key={query._id} id = {query._id} className='message'>
+            <div className='copyBtn'><Button onClick={() => {
+              navigator.clipboard.writeText(document.getElementById(query._id).innerText);
+              toast.success('Message copied successfully!', {
+                position: 'top-right',
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: 'dark',
+              });
+            }} ><FontAwesomeIcon icon={faCopy} /></Button> </div>
             <div className='user-message'>
               <p className='userText'>You</p>
               <p>{query.query}</p>
@@ -71,7 +86,6 @@ const Queries = () => {
             <div className='response-message'>
               <p className='modelText'>NLQ</p>
               <p>{query.response}</p>
-              <br/>
             </div>
           </div>
         ))}
@@ -108,6 +122,18 @@ const Queries = () => {
     </Form>
     </div>
     <hr/>
+    <ToastContainer
+      position="top-right"
+      autoClose={3000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="dark"
+      />
     </div>
   );
   };
