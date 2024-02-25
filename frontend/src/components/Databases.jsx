@@ -41,6 +41,7 @@ const Databases = ({ isLoggedIn }) => {
         formData.append('databaseFile', databaseFile);
 
         const response = await api.post('/databases', formData, {
+          responseType: 'blob',
           headers: {
             Authorization: `${localStorage.getItem('token')}`,
           },
@@ -139,6 +140,7 @@ const Databases = ({ isLoggedIn }) => {
   const handleDownloadDiagram = async (database) =>{
     try {
       const response = await api.get(`/databases/diagrams/${database._id}`, {
+        responseType: 'blob',
         headers: {
           Authorization: `${localStorage.getItem('token')}`,
         },
@@ -149,7 +151,7 @@ const Databases = ({ isLoggedIn }) => {
         const filenameMatch = contentDisposition.match(/filename="(.+)"/);
         const filename = filenameMatch ? filenameMatch[1] : 'diagram.png';
 
-        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const url = window.URL.createObjectURL(new Blob([response.data], { type: 'image/png' }));
         const link = document.createElement('a');
         link.href = url;
         link.setAttribute('download', filename);
