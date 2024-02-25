@@ -95,8 +95,6 @@ const Databases = ({ isLoggedIn }) => {
           Authorization: `${localStorage.getItem('token')}`,
         },
       });
-      console.log("!!!!")
-      console.log(response);
 
       if (response.statusText="Created") {
         toast.success('Database removed successfully!', {
@@ -138,6 +136,66 @@ const Databases = ({ isLoggedIn }) => {
     }
   };
 
+  const handleDownloadDiagram = async (database) =>{
+    try {
+      const response = await api.get(`/databases/diagrams/${database._id}`, {
+        headers: {
+          Authorization: `${localStorage.getItem('token')}`,
+        },
+      });
+      console.log(response);
+      if (response.statusText="Created") {
+        const contentDisposition = response.headers['content-disposition'];
+        const filenameMatch = contentDisposition.match(/filename="(.+)"/);
+        const filename = filenameMatch ? filenameMatch[1] : 'diagram.png';
+
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', filename);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        toast.success('Diagram downloaded successfully!', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'dark',
+        });
+        await fetchData();
+      } else {
+        console.error('Error downloading diagram:', response.statusText);
+        toast.error('Diagram download failed. Please try again.', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'dark',
+        });
+      }
+    } catch (error) {
+      console.error('Error downloading diagram:', error.message);
+      toast.error('Diagram download failed. Please try again.', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'dark',
+      });
+    }
+  };
+
+
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -169,8 +227,11 @@ const Databases = ({ isLoggedIn }) => {
             timeZoneName: 'short',
           })})
           </p>
-          <Button variant="danger" onClick={() => handleRemoveDatabase(database)}>
+          <Button variant="outline-danger" size='sm' onClick={() => handleRemoveDatabase(database)}>
             Remove
+          </Button>
+          <Button variant="outline-success" size='sm' className='diagBtn' onClick={() => handleDownloadDiagram(database)}>
+            Get Diagram
           </Button>
           </div>
           <hr/>
