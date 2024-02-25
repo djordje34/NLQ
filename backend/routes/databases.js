@@ -41,8 +41,7 @@ module.exports = (db) => {
 
       res.status(201).json({ id: result.insertedId,
          userId,
-          originalname,
-          createdAt });
+          originalname});
     } catch (error) {
       console.error('Error in database upload:', error);
       res.status(500).json({ error: 'Internal Server Error' });
@@ -91,34 +90,37 @@ module.exports = (db) => {
     }
   });
 
-  router.get('/diagrams', authenticateUser, async (req, res) => {
+  router.get('/diagrams/:databaseId', authenticateUser, async (req, res) => {
     try {
-      const { databaseId: requestDBId } = req.body;
       const authenticatedUserId = req.userId;
+      const { databaseId } = req.params;
       const user = await db.collection('users').findOne({ _id: new ObjectId(authenticatedUserId) });
 
       if (!user) {
         return res.status(404).json({ error: 'User not found' });
       }
 
-      const database = await db.collection('databases').findOne({ _id: new ObjectId(requestDBId), userId: user._id });
+      const database = await db.collection('databases').findOne({ _id: new ObjectId(databaseId), userId: user._id });
 
       if(!database) {
         return res.status(404).json({ error: 'Database not found' });
       }
 
-      const flaskEndpoint = 'http://127.0.0.1:5000/api/diagrams';
-      const requestData = {
-        filename: database.filename,
-        userId: authenticatedUserId,
-      };
+      const response = await axios.get(`http://127.0.0.1:5000/api/diagrams`, {
+        params: {
+          filename: database.filename,
+          userId: authenticatedUserId,
+        },
+      });
 
-      const response = await axios.post(flaskEndpoint, requestData);
+      const diagramPath = response.data.path;
 
-      res.json(response.data);
-      
+      const fileName = path.basename(diagramPath);
+      res.setHeader('Content-Disposition', `attachment; filename=${fileName}`);
+      res.setHeader('Content-Type', 'image/png');
+      res.download(diagramPath, fileName);
     } catch (error) {
-      console.error('Error fetching database ERD:', error);
+      console.error('Error downloading diagram:', error);
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
