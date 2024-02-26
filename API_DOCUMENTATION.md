@@ -51,6 +51,30 @@ This document provides details on the API endpoints, their usage, and expected r
 - **Error Responses:**
   - Status: 500 Internal Server Error
   - Status: 400 Bad Request
+##### 3. Generate Database Based On The Given Specifications
+
+- **Endpoint:** `http://127.0.0.1:5000/api/database`
+- **Method:** `POST`
+- **Description:** Generates a database and returns it's path.
+- **Request Body:**
+```js
+    {
+    "job": "Employee Management", //a job, database `purpose`
+    "tables": "\nemployees,\ndepartment,\ncountry", //tables to include and create
+    "userId": "user_id", //creator's ID
+    "name":"somedb" //name of the database
+}
+```
+- **Response:**
+```js
+    {
+        "path": "path\\to\\database.db" // Path to the generated database
+    }
+```
+- **Error Responses:**
+  - Status: 500 Internal Server Error
+  - Status: 400 Bad Request
+
 ### 2. Databases Endpoints
 ##### 1. Upload Database
 - **Endpoint:** `http://localhost:3000/databases`
@@ -142,7 +166,6 @@ This document provides details on the API endpoints, their usage, and expected r
     ```
 - **Error Responses:**
   - Status: 500 Internal Server Error
-
 
 ### 3. Queries Endpoints
 ##### 1. Create Query
