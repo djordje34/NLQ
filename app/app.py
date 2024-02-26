@@ -57,7 +57,7 @@ def generate_db() -> Response: #povezi da radi preko Node endpointova, i da dobi
         conn.close()
         conn_save.close()
         
-        return jsonify({"response": path_to_save})
+        return jsonify({"path": path_to_save})
         
     except BadRequest as e:
         return jsonify({"error": str(e)}), 400
