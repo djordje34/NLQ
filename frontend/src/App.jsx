@@ -6,6 +6,7 @@ import Register from './components/Register';
 import Home from './components/Home';
 import Databases from './components/Databases';
 import Queries from './components/Queries'
+import GenerateDatabase from './components/GenerateDatabase';
 import './App.css'
 
 const App = () => {
@@ -43,6 +44,10 @@ const App = () => {
           <Route 
           path="/queries/:databaseId" 
           element={<Queries/>}
+          />
+          <Route 
+          path="/databases/generate" 
+          element={<GenerateDatabase/>}
           />
         </Routes>
     </Router>
