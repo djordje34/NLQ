@@ -213,4 +213,5 @@ dist
 stats.html
 *.png
 *.db
+*.sql
 .eslintcache
