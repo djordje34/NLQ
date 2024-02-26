@@ -1,12 +1,14 @@
 import json
 from flask import Flask, Response, jsonify, request
 from flask_cors import CORS, cross_origin
+import sqlite3
+import os
 from werkzeug.exceptions import BadRequest, InternalServerError
 from wrapper.db import Database
 from wrapper.model import Model
 from wrapper.chaingen import ChainGen
 from utility.prompts import Prompt
-
+from utility.utils import adopt_childfile
 
 
 app = Flask(__name__)
@@ -15,8 +17,56 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 model = Model()
 
-#this needs to be fixed ASAP
-#add to the docs!
+@app.route("/api/database", methods=["POST"])
+@cross_origin()
+def generate_db() -> Response: #povezi da radi preko Node endpointova, i da dobijeni db dodaje u db
+    """Generates SQL code for generation of user-specified database.
+
+    Raises:
+        BadRequest: Client-side bad request
+
+    Returns:
+        Response: SQL code for database creation. (for now at least)
+    """
+    try:
+        job = str(request.json.get("job",""))
+        tables = str(request.json.get("tables",""))
+        user_id = str(request.json.get("userId", ""))
+        name = str(request.json.get("name", ""))
+        if not job or not tables or not user_id: #posle dodaj userId i da cuva
+            raise BadRequest("'job', 'userId', 'name' and 'tables' must be provided in the request.")
+        
+        generator = ChainGen.db_chain(Prompt.DB_GEN_PROMPT.value, model)
+        result = generator.invoke({"job": f"{job}","tables":f"{tables}"})['text']
+        result = result[result.find("```sql")+6:-3]
+        conn = sqlite3.connect(":memory:")
+        cursor = conn.cursor()
+
+        cursor.executescript(result.strip())
+        dump = conn.iterdump()
+        
+        path_to_save = adopt_childfile(user_id, f"{name}.db")
+        path_to_save = adopt_childfile("..\\data", path_to_save)
+        
+        conn_save = sqlite3.connect(path_to_save)
+
+        cursor_save = conn_save.cursor()
+        cursor_save.executescript('\n'.join(dump))
+        conn_save.commit()
+        
+        conn.close()
+        conn_save.close()
+        
+        return jsonify({"response": path_to_save})
+        
+    except BadRequest as e:
+        return jsonify({"error": str(e)}), 400
+
+    except Exception as e:
+        app.logger.error(f"An internal server error occurred: {str(e)}")
+        return jsonify({"error": "Internal Server Error"}), 500
+        
+
 @app.route("/api/diagrams", methods=["GET"])
 @cross_origin()
 def graphify() -> Response:
