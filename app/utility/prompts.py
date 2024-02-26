@@ -3,6 +3,18 @@ from utility.utils import *
 
 class Prompt(Enum):
     
+    DB_GEN_PROMPT = format_dbgen_template(
+    """
+    <start_of_turn>user
+    Generate SQL code to create tables for a SQLite database for {job}, which contains tables:
+    {tables}\n
+    Return only SQL code.
+    <end_of_turn>
+    <start_of_turn>model
+    """
+    )
+    
+    
     NL_TO_SQL_PROMPT = format_fwd_template(
         """You are a natural language to SQL translator. You respond only using SQL.\n
         Carefully consider the provided table schema below and write a precise and correct SQL query to answer the user's question.\n
