@@ -1,10 +1,26 @@
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.prompts import ChatPromptTemplate
+from langchain.chains import LLMChain
 from wrapper.db import Database
 from wrapper.model import Model
 from langchain_core.output_parsers import StrOutputParser
 
 class ChainGen:
+    
+    @classmethod
+    def db_chain(cls, db_prompt:ChatPromptTemplate, model:Model)->any:
+        """Returns a DB generation chain.
+
+        Args:
+            sql_prompt (ChatPromptTemplate): Prompt template object
+            model (Model): model wrapper object
+
+        Returns:
+            any: DB SQL generation chain
+        """
+
+        return LLMChain(prompt=db_prompt, llm = model.db_generator.bind(stop=["\nSQLResult:"]))
+    
     
     @classmethod
     def forward_chain(cls,db_wrapper:Database, sql_prompt:ChatPromptTemplate, model:Model)->any:
