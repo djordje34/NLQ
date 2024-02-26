@@ -1,11 +1,11 @@
 import re
 from dotenv import load_dotenv
 import os
-from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.prompts import ChatPromptTemplate, PromptTemplate
 import sqlite3
 from eralchemy2 import render_er 
 
-def get_key()->str:
+def get_replicate_key()->str:
     """Get Replicate API token
 
     Returns:
@@ -14,6 +14,14 @@ def get_key()->str:
     load_dotenv()
     return os.getenv("REPLICATE_API_TOKEN")
 
+def get_hf_key()->str:
+    """Get HuggingFaceHub API token
+
+    Returns:
+        str: HuggingFaceHub API token
+    """
+    load_dotenv()
+    return os.getenv("HUGGINGFACEHUB_API_TOKEN")
 
 def adopt_childfile(parent:str,child:str)->str:
     """Merge root path with filename
@@ -26,7 +34,20 @@ def adopt_childfile(parent:str,child:str)->str:
         str: Path to the given resource
     """
     return os.path.join(parent, child)
+
+def format_dbgen_template(template:str)->ChatPromptTemplate:
+    """Formatting the given template prompt for 'database generation' LLM chain
+
+    Args:
+        template (str): Template prompt in string format
+
+    Returns:
+        ChatPromptTemplate: Template prompt wrapped in ChatPromptTemplate object
+    """
     
+    return PromptTemplate(template=template, input_variables=["tables","job"])
+
+
 def format_fwd_template(template:str)->ChatPromptTemplate:
     """Formatting the given template prompt for the 'forwarding' (NL->SQL) LLM chain
 
