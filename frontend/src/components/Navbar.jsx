@@ -1,6 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Navbar, Nav, Container } from 'react-bootstrap';
+import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import './index.css'
 
@@ -17,9 +17,18 @@ const CustomNavbar = ({ isLoggedIn, onLogout }) => {
               <Nav.Link as={NavLink} to="/" className="nav-link">
                 Home
               </Nav.Link>
+
+              <NavDropdown title="Databases" id="collapsible-nav-dropdown" className="dropdown">
+
               <Nav.Link as={NavLink} to="/databases" className="nav-link">
-                Databases
+                Your Databases
               </Nav.Link>
+              <Nav.Link as={NavLink} to="/generate" className="nav-link">
+                Generate a New Database
+              </Nav.Link>
+
+              </NavDropdown>
+
               <Nav.Link as={NavLink} to="/settings" className="nav-link">
                 Settings
               </Nav.Link>
