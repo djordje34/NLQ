@@ -6,7 +6,7 @@ class Prompt(Enum):
     DB_GEN_PROMPT = format_dbgen_template(
     """
     <start_of_turn>user
-    Generate SQL code to create tables for a SQLite database for {job}, which contains tables:
+    Generate SQL code to create tables for a SQLite database for {job}, which contains at least the next tables:
     {tables}\n
     Return only SQL code.
     <end_of_turn>
