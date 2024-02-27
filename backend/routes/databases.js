@@ -125,5 +125,14 @@ module.exports = (db) => {
     }
   });
 
+  router.post('/generate', authenticateUser, async (req, res) => { //zavrsi za gen
+    try {
+
+    } catch (error) {
+      console.error('Error in database upload:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+
   return router;
 };
