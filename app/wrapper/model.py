@@ -8,7 +8,11 @@ class Model:
     
     def __init__(self):
         """
-        Constructs a wrapper object for LLM
+        Constructs a wrapper object which contains designated LLMs for querying and generation.
+        
+        LLAMA-2-70b-Chat : Used for creating NL->SQL->NL chain (Replicate)
+        
+        Gemma-7b-Instruct : Used for Database generation (HuggingFace)
         """
         HUGGINGFACEHUB_API_TOKEN = get_replicate_key()
         REPLICATE_API_TOKEN = get_hf_key()
