@@ -46,7 +46,7 @@ const App = () => {
           element={<Queries/>}
           />
           <Route 
-          path="/databases/generate" 
+          path="/generate" 
           element={<GenerateDatabase/>}
           />
         </Routes>
