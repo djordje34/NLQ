@@ -29,11 +29,11 @@ def generate_db() -> Response: #povezi da radi preko Node endpointova, i da dobi
         Response: SQL code for database creation. (for now at least)
     """
     try:
-        job = str(request.json.get("job",""))
+        job = str(request.json.get("job",""))   #mora da se rascisti malo, mnogo conf kod
         tables = str(request.json.get("tables",""))
         user_id = str(request.json.get("userId", ""))
         name = str(request.json.get("name", ""))
-        if not job or not tables or not user_id: #posle dodaj userId i da cuva
+        if not job or not tables or not user_id:
             raise BadRequest("'job', 'userId', 'name' and 'tables' must be provided in the request.")
         
         generator = ChainGen.db_chain(Prompt.DB_GEN_PROMPT.value, model)
