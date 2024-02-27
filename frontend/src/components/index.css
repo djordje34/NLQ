@@ -201,6 +201,25 @@
     border-color: #199c50 !important;
   }
 
+  .genBtn{
+    background-color: #cfcfcf;
+    color:#199c50;
+    font-weight:500;
+  }
+.genBtn:hover{
+  background-color:#199c50;
+  color:#f2f2f2;
+  border-color: #199c50;
+}
+.genBtn:focus{
+  background-color:#199c50;
+  color:#f2f2f2;
+  border-color: #199c50;
+}
+.genBtn:active{
+  background-color:#1a7c43 !important;
+  border-color: #199c50 !important;
+}
 
   .spinner{
     min-width: fit-content;
@@ -254,3 +273,14 @@
     color:#0ac257 !important;
   }
 
+  .btn-holder{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    
+  }
+
+  .dropdown-menu{
+    width:max-content;
+    transition: all 0.5s ease-in-out;
+  }
