@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, ListGroup, Modal, Badge } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 import api from '../api';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -25,9 +24,23 @@ const GenerateDatabase = () => {
     setTables(updatedTables);
   };
 
-  const handleGenerateDatabase = () => {//ovaj updatuj da ide preko API
-    //dodaj u node
-    console.log('Generating Database:', { dbName, jobName, tables });
+  const handleGenerateDatabase = () => {
+    if (dbName.trim() === '' || jobName.trim() === '' || tables.length === 0) {
+      toast.error('Please fill in all fields and add at least one table.', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: 'dark',
+      });
+      return;
+    }
+
+    //ovde salji na node sa body dbName jobName i tabele sa '\n'!
+
+    console.log('Generating Database:', { dbName, jobName, tables }); //za test
 
     toast.success('Database successfully generated!', {
         position: 'top-right',
@@ -51,7 +64,7 @@ const GenerateDatabase = () => {
         <h2>Generate a New Database</h2>
         <hr />
 
-        <Form style={{textAlign:'center'}}>
+        <Form style={{textAlign:'center', width:'60%',margin:'auto'}}>
           <Form.Group className='mb-3' controlId='dbName'>
             <Form.Label>Database Name</Form.Label>
             <Form.Control
