@@ -208,6 +208,7 @@ const Databases = ({ isLoggedIn }) => {
   return (
     <div className='dashboard'>
         <Container className='listDB'>
+
       <h2>Your Databases</h2>
         <hr/>
       {databases.length > 0 ? (
@@ -247,7 +248,6 @@ const Databases = ({ isLoggedIn }) => {
       <Button className='importBtn mb-3' onClick={() => setShowModal(true)}>
         Import Database
       </Button>
-
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Import Database</Modal.Title>
