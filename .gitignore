@@ -9,7 +9,7 @@ tempCodeRunnerFile.py
 *.pyc
 settings.json
 __pychache__
-
+.vscode
 #node
 
 logs
