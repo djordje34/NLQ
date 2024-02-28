@@ -1,6 +1,4 @@
 
-
-
 #py
 
 .env
@@ -10,6 +8,7 @@ test.py
 tempCodeRunnerFile.py
 *.pyc
 settings.json
+__pychache__
 
 #node
 
