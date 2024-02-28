@@ -214,3 +214,5 @@ stats.html
 *.db
 *.sql
 .eslintcache
+
+data
