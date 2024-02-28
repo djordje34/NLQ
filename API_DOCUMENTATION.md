@@ -51,24 +51,24 @@ This document provides details on the API endpoints, their usage, and expected r
 - **Error Responses:**
   - Status: 500 Internal Server Error
   - Status: 400 Bad Request
-##### 3. Generate Database Based On The Given Specifications
+##### 3. Generate Database Based On The Given Specifications (Tables, Job and Name)
 
 - **Endpoint:** `http://127.0.0.1:5000/api/database`
 - **Method:** `POST`
-- **Description:** Generates a database and returns it's path.
+- **Description:** Generates a database and returns its path.
 - **Request Body:**
 ```js
     {
-    "job": "Employee Management", //a job, database `purpose`
+    "job": "Employee Management", //a job, database's `purpose`
     "tables": "\nemployees,\ndepartment,\ncountry", //tables to include and create
-    "userId": "user_id", //creator's ID
-    "name":"somedb" //name of the database
+    "userId": "user_id", //creator's (user's) ID
+    "name":"somedb" //name of the database (to be saves as `somedb.db`)
 }
 ```
 - **Response:**
 ```js
     {
-        "path": "path\\to\\database.db" // Path to the generated database
+        "path": "path\\to\\database.db" // Path to the generated database (stored in user's folder)
     }
 ```
 - **Error Responses:**
@@ -84,7 +84,7 @@ This document provides details on the API endpoints, their usage, and expected r
   - Headers:
     - Authorization: YOUR_JWT_TOKEN
   - Body:
-    - `databaseFile`: Database file to be uploaded (multipart/form-data)
+    - `databaseFile`: Database file (.db) to be uploaded (multipart/form-data)
 - **Response:**
   - Status: 201 Created
   - Body:
