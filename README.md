@@ -18,6 +18,7 @@ NLQ simplifies the database interaction process, allowing users to effortlessly 
 - **Natural Language Querying**: Perform queries using natural language.
 - **Database Management**: Import, view, and manage databases effortlessly.
 - **User-friendly Interface**: Intuitive UI for a seamless experience.
+- **Database ERD Generation**: Generate ER diagrams to visually represent databases.
 
 ## Technologies Used
 
