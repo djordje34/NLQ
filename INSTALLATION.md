@@ -1,3 +1,7 @@
+# Installation
+
+Make sure you previously obtain `HUGGINGFACEHUB_API_TOKEN` and `REPLICATE_API_TOKEN`, as they provide the backbone for LLM operations used in this project.
+
 ## Retrieve the project
 
 1. **Clone the repository:**
