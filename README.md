@@ -18,7 +18,8 @@ NLQ simplifies the database interaction process, allowing users to effortlessly 
 - **Natural Language Querying**: Perform queries using natural language.
 - **Database Management**: Import, view, and manage databases effortlessly.
 - **User-friendly Interface**: Intuitive UI for a seamless experience.
-- **Database ERD Generation**: Generate ER diagrams to visually represent databases.
+- **Database ERD**: Generate ER diagrams to visually represent user-imported databases.
+- **Database Generation**: Generate database schema based on user preference (tables, name, etc.).
 
 ## Technologies Used
 
@@ -27,6 +28,7 @@ NLQ simplifies the database interaction process, allowing users to effortlessly 
 - **MongoDB**: NoSQL database for storing user and application data.
 - **Express.js**: Framework for building the backend API.
 - **Bootstrap**: CSS framework for enhancing the application's design.
+- **LangChain**: ...
 - **Python Flask**: Powers the NL->SQL->NL conversion server, providing seamless natural language conversion.
 
 ## Installation and Usage
