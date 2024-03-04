@@ -4,7 +4,7 @@ This document provides details on the API endpoints, their usage, and expected r
 
 ## Authentication
 
-- For authentication, all Node.js API's require a valid JSON Web Token (JWT) to be included in the `Authorization` header.
+- For authentication, all Node.js APIs require a valid JSON Web Token (JWT) to be included in the `Authorization` header.
 
 ## Endpoints
 ### 1. Flask Endpoints
