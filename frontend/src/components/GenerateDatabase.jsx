@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Button, Container, ListGroup, Modal, Badge } from 'react-bootstrap';
+import { Form, Button, Container, ListGroup, Modal, Spinner } from 'react-bootstrap';
 import api from '../api';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,6 +10,7 @@ const GenerateDatabase = () => {
   const [table, setTable] = useState('');
   const [tables, setTables] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleAddTable = () => {
     if (table.trim() !== '') {
@@ -24,38 +25,79 @@ const GenerateDatabase = () => {
     setTables(updatedTables);
   };
 
-  const handleGenerateDatabase = () => {
-    if (dbName.trim() === '' || jobName.trim() === '' || tables.length === 0) {
-      toast.error('Please fill in all fields and add at least one table.', {
+  const handleGenerateDatabase = async() => {
+    try{
+      if (dbName.trim() === '' || jobName.trim() === '' || tables.length === 0) {
+        toast.error('Please fill in all fields and add at least one table.', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: 'dark',
+        });
+        return;
+      }
+      setLoading(true);
+      const response = await api.post(`/databases/generate`,{
+        job:jobName,
+        tables:"\n"+tables.join(",\n"),
+        name:dbName
+      },{
+        headers: {
+          Authorization: `${localStorage.getItem('token')}`,
+        },
+      });
+
+      if (response.statusText === 'Created') {
+        toast.success('Database successfully generated!', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme:'dark',
+        });
+        setDbName('');
+        setJobName('');
+        setTables([]);
+        setShowModal(false);
+      } else {
+        console.error('Error adding query:', response.statusText);
+        toast.error('Database generation failed. Please try again.', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'dark',
+        });
+        setDbName('');
+        setJobName('');
+        setTables([]);
+        setShowModal(false);
+      }
+    }catch (error) {
+      console.error('Error generating database:', error.message);
+      toast.error('Database generation failed. Please try again.', {
         position: 'top-right',
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
+        progress: undefined,
         theme: 'dark',
       });
-      return;
+    }
+    finally{
+      setLoading(false);
     }
 
-    //ovde salji na node sa body dbName jobName i tabele sa '\n'!
-
-    console.log('Generating Database:', { dbName, jobName, tables }); //za test
-
-    toast.success('Database successfully generated!', {
-        position: 'top-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme:'dark',
-      });
-
-    setDbName('');
-    setJobName('');
-    setTables([]);
-    setShowModal(false);
   };
 
   return (
@@ -121,8 +163,10 @@ const GenerateDatabase = () => {
 
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Confirm Generation</Modal.Title>
+          <Modal.Title>Database Generation</Modal.Title>
         </Modal.Header>
+        { !loading ? 
+        <>
         <Modal.Body>
           <p>Are you sure you want to generate the database with the provided details?</p>
         </Modal.Body>
@@ -134,6 +178,13 @@ const GenerateDatabase = () => {
             Generate
           </Button>
         </Modal.Footer>
+        </>
+        : 
+        <div className='d-flex justify-content-center m-5 flex-column align-items-center' style={{color:'#0ac257'}}>
+        <Spinner className='mb-3' animation="border" />
+        Please wait while the database is getting generated
+        </div>
+        }
       </Modal>
       <ToastContainer
         position="top-right"

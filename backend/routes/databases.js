@@ -19,7 +19,7 @@ module.exports = (db) => {
         return res.status(400).json({ error: 'userId and originalname are required' });
       }
   
-      const userDatabaseDir = path.join(__dirname, '..', '..', 'data', userId); //popravi za root data path.join(__dirname, '..', '..', 'data', userId);
+      const userDatabaseDir = path.join(__dirname, '..', '..', 'data', userId);
       const newPath = path.join(userDatabaseDir, originalname);
   
       try {
@@ -125,11 +125,47 @@ module.exports = (db) => {
     }
   });
 
-  router.post('/generate', authenticateUser, async (req, res) => { //zavrsi za gen
+  router.post('/generate', authenticateUser, async (req, res) => {
     try {
 
+      const {job, tables, name} = req.body;
+      const userId = req.userId;
+
+      const user = await db.collection('users').findOne({ _id: new ObjectId(userId) });
+
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+      if (!job || !tables || !name) {
+        return res.status(400).json({ error: 'parameters are required' });
+      }
+
+
+      const response = await axios.post(`http://127.0.0.1:5000/api/database`, {
+          job: job,
+          tables: tables,
+          userId: userId,
+          name:name
+      });
+
+      const path = response.data.path;
+
+      const newDatabase = {
+        userId: new ObjectId(userId),
+        path: path,
+        filename: name+".db",
+        createdAt: new Date()
+      };
+
+      const result = await db.collection('databases').insertOne(newDatabase);
+
+      res.status(201).json({ id: result.insertedId,
+         userId,
+          name,
+        path});
+
     } catch (error) {
-      console.error('Error in database upload:', error);
+      console.error('Error in database generation:', error);
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
