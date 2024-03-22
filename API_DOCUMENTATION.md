@@ -166,6 +166,47 @@ This document provides details on the API endpoints, their usage, and expected r
     ```
 - **Error Responses:**
   - Status: 500 Internal Server Error
+##### 5. Generate Database
+- **Endpoint:** `http://localhost:3000/databases/generate`
+- **Method:** `POST`
+- **Description:** Generate a database with given specifications.
+- **Request:**
+  - Headers:
+    - Authorization: YOUR_JWT_TOKEN
+  - Body:
+    ```js
+    {
+        "job": "Employee Management", //what task is database designed for
+        "tables": "\nemployees,\ndepartment,\ncountry", //what are some of the tables that need to be created
+        "name":"newdb" //a name for generated database
+    }
+    ```
+- **Response:**
+  - Status: 201 Created
+  - Body:
+    ```js
+    {
+    "id": databaseId",
+    "userId": "userId",
+    "name": "newdb",
+    "path": "..\\path\\to\\newdb.db"
+    }
+    ```
+- **Error Responses:**
+  - Status: 400 Bad Request
+  - Body:
+    ```js
+    {
+    "error": "parameters are required"
+    }
+    ```
+  - Status: 500 Internal Server Error
+  - Body:
+    ```js
+    {
+    "error": "Error in database generation: ..."
+    }
+    ```
 
 ### 3. Queries Endpoints
 ##### 1. Create Query
