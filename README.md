@@ -19,7 +19,7 @@ NLQ simplifies the database interaction process, allowing users to effortlessly 
 - **Database Management**: Import, view, and manage databases effortlessly.
 - **User-friendly Interface**: Intuitive UI for a seamless experience.
 - **Database ERD**: Generate ER diagrams to visually represent user-imported databases.
-- **Database Generation**: Generate database schema based on user preference (tables, name, etc.).
+- **Database Generation**: Generate database schema based on user input (tables, name, etc.).
 
 ## Technologies Used
 
