@@ -1,5 +1,5 @@
 # Natural Language Querying (NLQ) 🚀
-NLQ is an innovative web application that revolutionizes the way users interact with databases by enabling natural language querying.
+NLQ is an innovative web application that revolutionizes the way users interact with databases by enabling natural language-powered database querying.
 ## Table of Contents
 - [Introduction](#introduction)
 - [Key Features](#key-features)
