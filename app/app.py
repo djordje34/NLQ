@@ -64,6 +64,14 @@ def generate_db() -> Response: #povezi da radi preko Node endpointova, i da dobi
         return jsonify({"error": str(e)}), 400
 
     except Exception as e:
+        try:    
+            conn.close()
+        except:
+            pass
+        try:
+            conn_save.close()
+        except:
+            pass
         app.logger.error(f"An internal server error occurred: {str(e)}")
         return jsonify({"error": "Internal Server Error"}), 500
         
