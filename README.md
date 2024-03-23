@@ -14,6 +14,8 @@ NLQ is an innovative web application that revolutionizes the way users interact 
 
 NLQ simplifies the database interaction process, allowing users to effortlessly perform complex queries using natural language. The application provides a user-friendly interface for importing, managing databases, and querying data seamlessly.
 
+![mockup](readme_static/yeah.png)
+
 ## App Showcase
 
 This section provides in-app screenshots (full-size) of different pages and functionalities.
