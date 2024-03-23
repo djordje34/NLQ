@@ -16,7 +16,23 @@ NLQ simplifies the database interaction process, allowing users to effortlessly 
 
 ## App Showcase
 
-![NLQ queries page](showcase.png)
+This section provides in-app screenshots (full-size) of different pages and functionalities.
+
+<h3 align="center">Login</h3>
+
+![NLQ login page](readme_static/login.png)
+
+<h3 align="center">User Databases</h3>
+
+![NLQ databases page](readme_static/databases.png)
+
+<h3 align="center">Generate Databases</h3>
+
+![NLQ databases page](readme_static/dbgen.png)
+
+<h3 align="center">Query a Database using NL</h3>
+
+![NLQ queries page](readme_static/showcase.png)
 
 ## Key Features
 
