@@ -79,6 +79,11 @@ const Queries = () => {
                 theme: 'dark',
               });
             }} ><FontAwesomeIcon icon={faCopy} /></Button> </div>
+
+            <div className='delQueryBtn'><Button onClick={() => {
+              handleDeleteQuery(query);
+            }} ><FontAwesomeIcon icon={faTrash} /></Button> </div>
+
             <div className='user-message'>
               <p className='userText'>You</p>
               <p>{query.query}</p>
