@@ -36,7 +36,7 @@ This section provides in-app screenshots (full-size) of different pages and func
 
 ## Key Features
 
-- **Natural Language Querying**: Perform queries using natural language.
+- **Natural Language Querying**: Perform queries on selected databases using natural language.
 - **Database Management**: Import, view, and manage databases effortlessly.
 - **User-friendly Interface**: Intuitive UI for a seamless experience.
 - **Database ERD**: Generate ER diagrams to visually represent user-imported databases.
@@ -49,7 +49,7 @@ This section provides in-app screenshots (full-size) of different pages and func
 - **MongoDB**: NoSQL database for storing user and application data.
 - **Express.js**: Framework for building the backend API.
 - **Bootstrap**: CSS framework for enhancing the application's design.
-- **LangChain**: ...
+- **LangChain**: Utiziling and tasking multiple LLMs for AI functionalities.
 - **Python Flask**: Powers the NL->SQL->NL conversion server, providing seamless natural language conversion.
 
 ## Installation and Usage
