@@ -80,4 +80,4 @@ Make sure you previously obtain `HUGGINGFACEHUB_API_TOKEN` and `REPLICATE_API_TO
   ```bash
      npm run dev
   ```
-3. **Access the Node.js Server at [http://localhost:5173](http://localhost:5173)**
+3. **Access the React.js Server at [http://localhost:5173](http://localhost:5173)**
