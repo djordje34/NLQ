@@ -18,6 +18,16 @@ module.exports = (db) => {
       if (!userId || !originalname) {
         return res.status(400).json({ error: 'userId and originalname are required' });
       }
+
+
+      const existingDatabase = await db.collection('databases').findOne({
+        userId: new ObjectId(userId),
+        filename: originalname
+      });
+      if (existingDatabase) {
+        return res.status(403).json({ error: 'Database with the same name already exists' });
+        
+      }
   
       const userDatabaseDir = path.join(__dirname, '..', '..', 'data', userId);
       const newPath = path.join(userDatabaseDir, originalname);
@@ -80,7 +90,14 @@ module.exports = (db) => {
       if (!database) {
         return res.status(404).json({ error: 'Database not found' });
       }
-  
+      
+      try {
+        await fs.unlink(database.path);
+    } catch (error) {
+        console.error('Error deleting database file:', error);
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+
       await db.collection('databases').deleteOne({ _id: new ObjectId(requestDBId) });
   
       res.json({ message: 'Database deleted successfully' });
