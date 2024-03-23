@@ -60,7 +60,8 @@ const Databases = ({ isLoggedIn }) => {
           await fetchData();
           setShowModal(false);
           setDatabaseFile(null);
-        } else {
+        } 
+        else {
           console.error('Error importing database:', response.statusText);
           toast.error('Database import failed. Please try again.', {
             position: 'top-right',
@@ -74,6 +75,19 @@ const Databases = ({ isLoggedIn }) => {
           });
         }
       } catch (error) {
+        if(error.response.status == 403){
+          toast.error('You have a database with the same name, please rename the new one.', {
+            position: 'top-right',
+            autoClose: 7000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'dark',
+          });
+        }
+        else{
         console.error('Error importing database:', error.message);
         toast.error('Database import failed. Please try again.', {
           position: 'top-right',
@@ -85,6 +99,7 @@ const Databases = ({ isLoggedIn }) => {
           progress: undefined,
           theme: 'dark',
         });
+      }
       }
     }
   };
@@ -111,7 +126,7 @@ const Databases = ({ isLoggedIn }) => {
         await fetchData();
       } else {
         console.error('Error removing database:', response.statusText);
-        toast.error('Database import failed. Please try again.', {
+        toast.error('Database removal failed. Please try again.', {
           position: 'top-right',
           autoClose: 5000,
           hideProgressBar: false,
