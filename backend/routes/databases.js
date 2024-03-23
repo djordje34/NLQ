@@ -107,6 +107,23 @@ module.exports = (db) => {
     }
   });
 
+  router.get('/download/:databaseId', authenticateUser, async (req, res) => {
+    try {
+        const { databaseId } = req.params;
+        const authenticatedUserId = req.userId;
+
+        const database = await db.collection('databases').findOne({ _id: new ObjectId(databaseId), userId: new ObjectId(authenticatedUserId) });
+        if (!database) {
+            return res.status(404).json({ error: 'Database not found' });
+        }
+
+        res.download(database.path, database.filename);
+    } catch (error) {
+        console.error('Error downloading database file:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
   router.get('/diagrams/:databaseId', authenticateUser, async (req, res) => {
     try {
       const authenticatedUserId = req.userId;
