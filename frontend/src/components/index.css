@@ -201,6 +201,24 @@
     border-color: #199c50 !important;
   }
 
+  .dldbBtn{
+    border-color: #0ac257;
+    color:#0ac257;
+  }
+  .dldbBtn:hover{
+    background-color:#199c50;
+    border-color: #199c50;
+  }
+  .dldbBtn:focus{
+    background-color:#199c50;
+    color:#f2f2f2;
+    border-color: #199c50;
+  }
+  .dldbBtn:active{
+    background-color:#1a7c43 !important;
+    border-color: #199c50 !important;
+  }
+
   .genBtn{
     background-color: #cfcfcf;
     color:#199c50;
