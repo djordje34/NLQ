@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Button, Modal, ListGroup, Container } from 'react-bootstrap';
 import { toast, ToastContainer } from 'react-toastify';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import Queries from './Queries'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faDownload, faTrash, faFileImage, faDatabase, faTable } from '@fortawesome/free-solid-svg-icons'
+
 import api from '../api';
 
 const Databases = ({ isLoggedIn }) => {
@@ -152,6 +154,52 @@ const Databases = ({ isLoggedIn }) => {
     }
   };
 
+  const handleDownloadDB = async (database) =>{
+    try{
+      const response = await api.get(`/databases/download/${database._id}`, {
+        responseType: 'blob',
+        headers: {
+          Authorization: `${localStorage.getItem('token')}`,
+        },
+      });
+      console.log(response)
+      if (!response.statusText == "OK") {
+        throw new Error('Failed to download database');
+    }
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', database.filename);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    toast.success('Database downloaded successfully!', {
+      position: 'top-right',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'dark',
+    });
+    await fetchData();
+    }
+    catch (error) {
+      console.error('Error downloading database:', error.message);
+      toast.error('Database download failed. Please try again.', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'dark',
+      });
+    }
+  };
+
   const handleDownloadDiagram = async (database) =>{
     try {
       const response = await api.get(`/databases/diagrams/${database._id}`, {
@@ -245,11 +293,14 @@ const Databases = ({ isLoggedIn }) => {
             timeZoneName: 'short',
           })})
           </p>
-          <Button variant="outline-danger" size='sm' onClick={() => handleRemoveDatabase(database)}>
-            Remove
+          <Button variant="outline-success" size='' className='dldbBtn' onClick={() => handleDownloadDB(database)}>
+          <FontAwesomeIcon icon={faDownload} />
           </Button>
-          <Button variant="outline-success" size='sm' className='diagBtn' onClick={() => handleDownloadDiagram(database)}>
-            Get Diagram
+          <Button variant="outline-success" size='' className='diagBtn' onClick={() => handleDownloadDiagram(database)}>
+          <FontAwesomeIcon icon={faFileImage} />
+          </Button>
+          <Button variant="outline-danger" size='' onClick={() => handleRemoveDatabase(database)}>
+          <FontAwesomeIcon icon={faTrash} />
           </Button>
           </div>
           <hr/>
