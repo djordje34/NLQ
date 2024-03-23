@@ -211,6 +211,7 @@ dist
 .vit
 stats.html
 diagrams/
+data/
 *.db
 *.sql
 .eslintcache
