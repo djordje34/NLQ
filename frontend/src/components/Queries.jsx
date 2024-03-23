@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button, Form, Spinner, Toast } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPaperPlane, faCopy } from '@fortawesome/free-solid-svg-icons'
+import { faPaperPlane, faCopy, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { toast, ToastContainer } from 'react-toastify';
 
 import api from '../api';
@@ -59,6 +59,54 @@ const Queries = () => {
       setLoading(false);
     }
   };
+
+  const handleDeleteQuery = async (query) =>{
+    try{
+      const response = await api.delete(`/queries/${query._id}`, {
+        headers: {
+            Authorization: `${localStorage.getItem('token')}`,
+        },
+    });
+
+    if (response.statusText === 'OK') {
+            toast.success('Query deleted successfully!', {
+                position: 'top-right',
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: 'dark',
+            });
+            fetchQueries();
+        } else {
+            console.error('Error deleting query:', response.statusText);
+            toast.error('Query deletion failed. Please try again.', {
+                position: 'top-right',
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: 'dark',
+            });
+        }
+    } catch (error) {
+        console.error('Error deleting query:', error.message);
+        toast.error('Query deletion failed. Please try again.', {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'dark',
+        });
+    }
+  }
 
 
   return (
