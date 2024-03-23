@@ -124,7 +124,7 @@ This document provides details on the API endpoints, their usage, and expected r
       // Additional databases...
     ]
     ```
-##### 3. Delete Selected Database
+##### 3. Delete Selected User Database
 - **Endpoint:** `http://localhost:3000/databases/:databaseId`
 - **Method:** `DELETE`
 - **Description:** Deletion of the selected database by the authenticated user.
@@ -207,6 +207,25 @@ This document provides details on the API endpoints, their usage, and expected r
     "error": "Error in database generation: ..."
     }
     ```
+##### 6. Download Database File
+- **Endpoint:** `http://localhost:3000/databases/download/:databaseId`
+- **Method:** `GET`
+- **Description:** Returns database file for download.
+- **Request:**
+  - Headers:
+    - Authorization: YOUR_JWT_TOKEN
+- **Response:**
+  - Status: 200 OK
+  - Body:
+    ```js
+    [
+      {
+        "data": Blob // db file
+      },
+    ]
+    ```
+- **Error Responses:**
+  - Status: 500 Internal Server Error
 
 ### 3. Queries Endpoints
 ##### 1. Create Query
@@ -269,7 +288,25 @@ This document provides details on the API endpoints, their usage, and expected r
     ```
 - **Error Responses:**
   - Status: 500 Internal Server Error
-
+##### 3. Delete Selected User Queries
+- **Endpoint:** `http://localhost:3000/queries/:queryId`
+- **Method:** `DELETE`
+- **Description:** Deletion of the selected query by the authenticated user.
+- **Request:**
+  - Headers:
+    - Authorization: YOUR_JWT_TOKEN
+- **Response:**
+  - Status: 200 OK
+  - Body:
+    ```js
+    [
+      {
+        "message": "Status of the process"
+      },
+    ]
+    ```
+- **Error Responses:**
+  - Status: 500 Internal Server Error
 ### 4. Users Endpoints
 ##### 1. User Registration
 - **Endpoint:** `http://localhost:3000/users`
