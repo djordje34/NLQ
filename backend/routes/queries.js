@@ -79,5 +79,30 @@ module.exports = (db) => {
     }
   });
 
+  router.delete('/:queryId', authenticateUser, async (req, res) => {
+    try {
+        const { queryId } = req.params;
+        const authenticatedUserId = req.userId;
+
+        const user = await db.collection('users').findOne({ _id: new ObjectId(authenticatedUserId) });
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        const query = await db.collection('queries').findOne({ _id: new ObjectId(queryId), userId: user._id });
+        if (!query) {
+            return res.status(404).json({ error: 'Query not found' });
+        }
+
+        await db.collection('queries').deleteOne({ _id: new ObjectId(queryId) });
+
+        res.status(200).json({ message: 'Query deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting query:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+
   return router;
 };
