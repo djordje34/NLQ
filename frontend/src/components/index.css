@@ -291,6 +291,33 @@
     color:#0ac257 !important;
   }
 
+  .delQueryBtn{
+    position:relative;
+  }
+  .delQueryBtn button{
+    position: absolute;
+    top: 30px;
+    right: 0px;
+    background-color:transparent;
+    color:#f2f2f2;
+    transition: all 0.33s ease;
+    border:0px;
+  }
+  .delQueryBtn button:hover{
+    transform: scale(1.2);
+    -webkit-transform: scale(1.2);
+    background-color:transparent;
+    color:#dc3545;
+  }
+  .delQueryBtn button:focus{
+    background-color:transparent;
+    color:#f2f2f2;
+  }
+  .delQueryBtn button:active{
+    background-color:transparent !important;
+    color:#dc3545 !important;
+  }
+
   .btn-holder{
     display:flex;
     flex-direction: row;
