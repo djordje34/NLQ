@@ -60,7 +60,7 @@ module.exports = (db) => {
     }
   });
 
-  router.get('/', authenticateUser, async (req, res) => {
+  router.get('/all', authenticateUser, async (req, res) => {
     try {
       const users = await db.collection('users').find().toArray();
       res.json(users);
@@ -69,10 +69,28 @@ module.exports = (db) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
-
+  /* 
   router.get('/:userId', authenticateUser, async (req, res) => {
     try {
       const { userId } = req.params;
+
+      const user = await db.collection('users').findOne({ _id: new ObjectId(userId) });
+
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+
+      res.json(user);
+    } catch (error) {
+      console.error('Error fetching user by ID:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+*/
+
+  router.get('/', authenticateUser, async (req, res) => { //To work without params - NEW
+    try {
+      const userId = req.userId;
 
       const user = await db.collection('users').findOne({ _id: new ObjectId(userId) });
 
