@@ -386,9 +386,9 @@ This document provides details on the API endpoints, their usage, and expected r
 - **Error Responses:**
   - Status: 500 Internal Server Error
 ##### 4. Get User by ID
-- **Endpoint:** `http://localhost:3000/users/:userId`
+- **Endpoint:** `http://localhost:3000/users/`
 - **Method:** `GET`
-- **Description:** Get user details by ID. (Requires authentication)
+- **Description:** Get user details by ID which is supplied via authentification header (directly from JWT). (Requires authentication)
 - **Request:**
   - Headers:
     - Authorization: YOUR_JWT_TOKEN
