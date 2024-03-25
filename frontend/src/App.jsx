@@ -7,6 +7,7 @@ import Home from './components/Home';
 import Databases from './components/Databases';
 import Queries from './components/Queries'
 import GenerateDatabase from './components/GenerateDatabase';
+import Settings from './components/Settings'
 import './App.css'
 
 const App = () => {
@@ -48,6 +49,10 @@ const App = () => {
           <Route 
           path="/generate" 
           element={<GenerateDatabase/>}
+          />
+          <Route 
+          path="/settings" 
+          element={<Settings/>}
           />
         </Routes>
     </Router>
