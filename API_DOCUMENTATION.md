@@ -410,17 +410,18 @@ This document provides details on the API endpoints, their usage, and expected r
     ```
   - Status: 500 Internal Server Error
 ##### 5. Update User
-- **Endpoint:** `http://localhost:3000/users/:userId`
+- **Endpoint:** `http://localhost:3000/users/`
 - **Method:** `PUT`
-- **Description:** Update user details by ID. (Requires authentication)
+- **Description:** Update user details by ID which is supplied via authentification header (directly from JWT). (Requires authentication)
 - **Request:**
   - Headers:
     - Authorization: YOUR_JWT_TOKEN
   - Body:
     ```js
     {
-      "username": "NewUsername",
-      "password": "NewPassword"
+      "username": "NewUsername", //optional (U optionality)
+      "password": "NewPassword", //optional (U optionality)
+      "email": "NewEmail"        //optional (CRUD optionality) 
     }
     ```
 - **Response:**
