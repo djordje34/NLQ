@@ -105,38 +105,55 @@ module.exports = (db) => {
     }
   });
 
-  router.put('/:userId', authenticateUser, async (req, res) => {
+  router.put('/', authenticateUser, async (req, res) => {
     try {
-      const { userId: requestUserId } = req.params;
-      const authenticatedUserId = req.userId;
-      const {username, password} = req.body;
-
-      if (authenticatedUserId !== requestUserId) {
-        return res.status(403).json({ error: 'You are not authorized to update this user' });
-      }
+      const userId = req.userId;
+      const { username, password, email } = req.body;
+      
+      const user = await db.collection('users').findOne({ _id: new ObjectId(userId) });
   
-      if (!username) {
-        return res.status(400).json({ error: 'Username is required' });
-      }
-  
-      const existingUser = await db.collection('users').findOne({ username });
-  
-      if (existingUser && existingUser._id.toString() !== requestUserId) {
-        return res.status(400).json({ error: 'Username already exists' });
-      }
-  
-      const hashedPassword = hashPassword(password);
-  
-      const result = await db.collection('users').updateOne(
-        { _id: new ObjectId(requestUserId) },
-        { $set: { username, password: hashedPassword } }
-      );
-  
-      if (result.matchedCount === 0) {
+      if (!user) {
         return res.status(404).json({ error: 'User not found' });
       }
   
-      res.json({ message: 'User updated successfully' });
+      if (email && email !== user.email) {
+        const existingUserWithEmail = await db.collection('users').findOne({ email });
+  
+        if (existingUserWithEmail && existingUserWithEmail._id.toString() !== userId) {
+          return res.status(400).json({ error: 'Email already in use' });
+        }
+      }
+  
+      if (username && username !== user.username) {
+        const existingUser = await db.collection('users').findOne({ username });
+  
+        if (existingUser && existingUser._id.toString() !== userId) {
+          return res.status(400).json({ error: 'Username already exists' });
+        }
+  
+        await db.collection('users').updateOne(
+          { _id: new ObjectId(userId) },
+          { $set: { username } }
+        );
+      }
+  
+      if (password) {
+        const hashedPassword = hashPassword(password);
+  
+        await db.collection('users').updateOne(
+          { _id: new ObjectId(userId) },
+          { $set: { password: hashedPassword } }
+        );
+      }
+  
+      if (email) {
+        await db.collection('users').updateOne(
+          { _id: new ObjectId(userId) },
+          { $set: { email } }
+        );
+      }
+  
+      res.status(200).json({ message: 'User updated successfully' });
     } catch (error) {
       console.error('Error updating user:', error);
       res.status(500).json({ error: 'Internal Server Error' });
