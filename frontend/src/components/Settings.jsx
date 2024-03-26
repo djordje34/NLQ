@@ -37,18 +37,79 @@ const Settings = () => {
     const handleSubmit = async (event) => {
       event.preventDefault();
       try {
-        const response = await fetch('/api/settings', {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ username, password, email }),
+        const requestBody = {};
+    
+        if (username) {
+          requestBody.username = username;
+        }
+    
+        if (password) {
+          requestBody.password = password;
+        }
+
+        if (email) {
+          requestBody.email = email;
+        }
+    
+        const response = await api.put('/users',requestBody,
+          {
+            headers: {
+              Authorization: `${localStorage.getItem('token')}`,
+            },
         });
-        if (!response.ok) {
+        console.log(response, response.statusText)
+        if (!response.statusText == "OK") {
           throw new Error('Failed to save changes');
         }
-        console.log('Changes saved successfully');
+        
+        toast.success('Settings successfully applied', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme:'dark',
+        });
+        fetchUserData();
       } catch (error) {
+        const errStatus = error.response.data.error
+        if(errStatus == "Username already exists"){
+          toast.error('This username is taken. Please try with another username.', {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'dark',
+          });
+        }
+        else if(errStatus == "Email already in use"){
+          toast.error('This email is taken. Please try with another email.', {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'dark',
+          });
+        }
+        else{
+        toast.error('Update failed. Please try again.', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'dark',
+        });
+      }
         console.error('Error:', error.message);
       }
     };
@@ -72,7 +133,7 @@ const Settings = () => {
             <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
-              placeholder="Enter new password"
+              placeholder="NEEDS TO BE UPDATED TO WORK WITH MAIL"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -88,11 +149,23 @@ const Settings = () => {
             />
           </Form.Group>
   
-          <Button variant="dark" className='importBtn' type="submit">
+          <Button variant="dark" className='importBtn' type="submit" onClick={handleSubmit}>
             Save Changes
           </Button>
         </Form>
       </Container>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme='dark'
+      />
     </div>
     );
   };
