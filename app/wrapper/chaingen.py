@@ -1,9 +1,6 @@
-from langchain_core.runnables import RunnablePassthrough
-from langchain_core.prompts import ChatPromptTemplate
-from langchain.chains import LLMChain
-from wrapper.db import Database
-from wrapper.model import Model
-from langchain_core.output_parsers import StrOutputParser
+from . import *
+from .db import Database
+from .model import Model
 
 class ChainGen:
     
