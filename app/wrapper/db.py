@@ -1,5 +1,4 @@
-from utility.utils import adopt_childfile, plot_er_diagram, check_file, create_path
-from langchain_community.utilities import SQLDatabase
+from . import *
 
 class Database:
 
@@ -61,7 +60,7 @@ class Database:
         Returns:
             str: Query result
         """
-        
+        query = query.split(";")[0]
         return self._db.run(query)
     
     def plot(self):
