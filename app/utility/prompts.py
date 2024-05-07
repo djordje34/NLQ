@@ -1,5 +1,5 @@
-from enum import Enum
-from utility.utils import *
+from . import *
+from .utils import *
 
 class Prompt(Enum):
     
@@ -21,14 +21,14 @@ class Prompt(Enum):
         Ensure the generated SQL query is accurate and retrieves as much relevant information as possible.\n
         Pay close attention to the schema details and structure and ensure that the generated SQL query is syntactically correct. 
         Based on the table schema below, 
-        write a SQL query that would answer the user's question.
+        write a SQL query that would answer the user's question in SQL syntax.
         Table Schema:\n
         {schema}
 
         Question: {question}\n
         Pay attention to use only the column names you can see in the tables below. 
         Always scope field names with the table name.
-        It is very important that you reply using only SQL code, there is no need for explanations. 
+        It is very important that you reply using only SQL code, there is no need for explanations or directions.
         
         SQL Query:""")
     
