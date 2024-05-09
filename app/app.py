@@ -9,7 +9,9 @@ from wrapper.model import Model
 from wrapper.chaingen import ChainGen
 from utility.prompts import Prompt
 from utility.utils import adopt_childfile
+from langchain.callbacks.tracers import ConsoleCallbackHandler
 
+from langchain.globals import set_verbose, set_debug
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -125,9 +127,7 @@ def process() -> Response: #proveri
 
         db_wrapper = Database(user_id,db_filename)
         full_chain = ChainGen.full_chain(db_wrapper, Prompt.SQL_TO_NL_PROMPT.value, Prompt.NL_TO_SQL_PROMPT.value, model)
-        
         result = full_chain.invoke({"question": f"{question}"})
-
         return jsonify({"response": result.strip()})
 
     except BadRequest as e:
