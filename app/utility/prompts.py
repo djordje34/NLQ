@@ -38,12 +38,15 @@ class Prompt(Enum):
         Translate the provided SQL response into clear and concise natural language. 
         Craft a response based on the given table schema, question, SQL query, and SQL response, without reiterating the question or SQL output.
 
-        Based on the table schema below, question, sql query, and sql response, write a natural language response:
+        Based on the table schema below, question, sql query, and sql response, write a natural language response.
         Table Schema:\n
         {schema}
 
         Question: {question}
         SQL Query: {query}
-        SQL Response: {response}""")
+        SQL Response: {response}
+        
+        Your answer should be in a friendly format and a direct answer to user's query, with all the information necessary.
+        """)
     
         
