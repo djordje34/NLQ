@@ -41,10 +41,12 @@ def generate_db() -> Response: #povezi da radi preko Node endpointova, i da dobi
         
         generator = ChainGen.db_chain(Prompt.DB_GEN_PROMPT.value, model)
         result = generator.invoke({"job": f"{job}","tables":f"{tables}"})['text']
-        result = result[result.find("```sql")+6:-3]
+        start = result.find("```sql")+6
+        end = result.find("```", start + 1)
+        result = result[start:end]
         conn = sqlite3.connect(":memory:")
         cursor = conn.cursor()
-
+        print(result.strip())
         cursor.executescript(result.strip())
         dump = conn.iterdump()
         
