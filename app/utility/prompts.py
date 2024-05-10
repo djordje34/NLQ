@@ -28,7 +28,7 @@ class Prompt(Enum):
         Question: {question}\n
         Pay attention to use only the column names you can see in the tables below. 
         Always scope field names with the table name.
-        It is very important that you reply using only SQL code, there is no need for explanations or directions.
+        It is very important that you reply using only SQL code, there is no need for explanations or directions. Pay close attention to the schema and table names.
         
         SQL Query:""")
     
@@ -46,7 +46,9 @@ class Prompt(Enum):
         SQL Query: {query}
         SQL Response: {response}
         
-        Your answer should be in a friendly format and a direct answer to user's query, with all the information necessary.
+        Your answer should be in a friendly format and a direct answer to user's query, with all the information necessary and contained within SQL Response. 
+        Answer like you're in a normal conversation talking to another human, and translate the SQL response.
+        Your response should be based on the SQL Response, do not make up any other responses. 
         """)
     
         
