@@ -56,8 +56,8 @@ class ChainGen:
         return (
         RunnablePassthrough.assign(query=ChainGen.forward_chain(db_wrapper, sql_prompt, model))
         | RunnablePassthrough.assign(
-            schema=db_wrapper.get_schema,
-            response=lambda x: db_wrapper.run_query(x["query"]),
+            schema=db_wrapper.get_schema, query = lambda x: x["query"],
+            response=lambda x: db_wrapper.run_query(x["query"])
         )
         | prompt
         | model.llm
