@@ -61,6 +61,9 @@ class Database:
             str: Query result
         """
         query = query.split(";")[0]
+        
+        print(query)
+        
         return self._db.run(query)
     
     def plot(self):
